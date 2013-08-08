@@ -3,7 +3,10 @@ require 'drink'
 
 describe Drink do 
 	it "creates a new drink with params" do
-		drink1 = Drink.new(:glass => 'Rocks')
+		params = {:booze => 'vodka',
+		           :mixer => 'water',
+		           :glass => 'rocks'}
+		drink1 = Drink.new(params)
 		# require 'pry'
 		# binding.pry
 		Drink.should_receive(:new).with(:some_params) #code to post to drinks/new with :some_params
