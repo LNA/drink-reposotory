@@ -1,0 +1,11 @@
+<% if @drink %>  
+  <form action="/<%= @drink.id %>" method="post" id="edit">  
+    <input type="hidden" name="_method" value="put">  
+    <textarea name="booze"><%= @note.booze %></textarea>  
+    <input type="checkbox" name="complete" <%= "checked" if @drink.complete %>>  
+    <input type="submit">  
+  </form>  
+  <p><a href="/<%= @drink.id %>/delete">Delete</a></p>  
+<% else %>  
+  <p>Drink not found.</p>  
+<% end %>  

@@ -1,0 +1,29 @@
+
+<section id="add">  
+  <form action="/" method="post">  
+    <textarea name="content" placeholder="Your drink&hellip;"></textarea>  
+    <input type="submit" value="Make My Drink!">  
+  </form>  
+</section>  
+  
+<% @drinks.each do |note| %>  
+  <article <%= 'class="complete"' if drink.complete %>>  
+    <p>  
+      <%= drink.booze %>  
+      <span><a href="/<%= note.id %>">[edit]</a></span>  
+    </p>  
+    <p>  
+      <%= drink.mixer %>  
+      <span><a href="/<%= note.id %>">[edit]</a></span>  
+    </p> 
+    <p>  
+      <%= drink.glass %>  
+      <span><a href="/<%= note.id %>">[edit]</a></span>  
+    </p> 
+    <p class="links">  
+      <a href="/<%= drink.id %>/complete">&#8623;</a>  
+    </p>  
+    <p class="meta">Created: <%= drink.created_at %></p>  
+  </article>  
+<% end %>  
+

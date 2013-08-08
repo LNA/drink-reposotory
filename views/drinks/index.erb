@@ -1,0 +1,9 @@
+<h1>Drinks</h1>
+
+<ul>
+  <% @drinks.each do |drink| %>
+    <li>
+      <%= drink.booze %> - <%= user.mixer %> - <%= user.glass %>
+    </li>
+  <% end %>
+ </ul>

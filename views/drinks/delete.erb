@@ -1,0 +1,10 @@
+<% if @drink %>  
+  <p>Are you sure you want to delete the following drink: <em>"<%= @drink.content %>"</em>?</p>  
+  <form action="/<%= @drink.id %>" method="post">  
+    <input type="hidden" name="_method" value="delete">  
+    <input type="submit" value="Yes, Delete It!">  
+    <a href="/<%= @drink.id %>">Cancel</a>  
+  </form>  
+<% else %>  
+  <p>Drink not found.</p>  
+<% end %>
