@@ -21,7 +21,7 @@ describe DrinkApp do
 	  	datastore = Drinks.new
 	  	Repository.should_receive(:for).and_return(@datastore)
 	  	datastore.should_receive(:save)
-	  	post '/drinks/new'
+	  	post '/drinks'
 	  end
   end
 end

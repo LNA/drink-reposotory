@@ -20,10 +20,11 @@ class DrinkApp < Sinatra::Application
     erb '/drinks/new'.to_sym
   end
 
-  post "/drinks/new" do
-    @drink = Repository.for(:drink)
-    erb '/users/new'.to_sym
+  post "/drinks" do
+    @drink = Repository.for(:drink).save(Repository.for(:drink))
+    erb '/drinks/new'.to_sym
   end
+
 
   # get '/drinks' do
   #   @drinks = DrinkRepository.for(:drink).all
