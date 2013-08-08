@@ -10,8 +10,4 @@ class Drinks
     @records[@id] = drink
     @id += 1
   end
-
-  def new_drink(drink)
-    save(drink)
-  end
 end
