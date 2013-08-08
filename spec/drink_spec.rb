@@ -7,13 +7,8 @@ describe Drink do
 		           :mixer => 'water',
 		           :glass => 'rocks'}
 		drink1 = Drink.new(params)
-		# require 'pry'
-		# binding.pry
-		Drink.should_receive(:new).with(:some_params) #code to post to drinks/new with :some_params
-	end
-	
-	it "sends the newly created drink to the Repository" do
-	  Drink.should_receive(:new).and_return("something")
-	  Repository.for(:drink).records[1].should == "something"
+		drink1.booze.should == 'vodka'
+		drink1.mixer.should == 'water'
+		drink1.glass.should == 'rocks'
 	end
 end
