@@ -4,6 +4,7 @@ Dir[File.dirname(__FILE__) + '/lib/models/*.rb'].each {|file| require file }
 require 'sinatra'
 require 'repository'
 require 'drinks'
+require 'drink'
 require 'spec_helper'
 
 
@@ -21,8 +22,9 @@ class DrinkApp < Sinatra::Application
   end
 
   post "/drinks" do
-    @drink = Repository.for(:drink).save(Repository.for(:drink))
-    erb '/drinks/new'.to_sym
+    @drink = Drink.new(:params)
+    Repository.for(:drink).save(@drink)
+    #erb '/drinks/new'.to_sym
   end
 
 
