@@ -1,7 +1,7 @@
 source "http://rubygems.org"
 
 gem 'sinatra'
-gem 'shotgun'
+gem 'rack'
 gem 'thin'
 
 gem 'rspec'

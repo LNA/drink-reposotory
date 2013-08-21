@@ -1,11 +1,25 @@
-<% if @drink %>  
-  <form action="/<%= @drink.id %>" method="post" id="edit">  
-    <input type="hidden" name="_method" value="put">  
-    <textarea name="booze"><%= @note.booze %></textarea>  
-    <input type="checkbox" name="complete" <%= "checked" if @drink.complete %>>  
-    <input type="submit">  
-  </form>  
-  <p><a href="/<%= @drink.id %>/delete">Delete</a></p>  
-<% else %>  
-  <p>Drink not found.</p>  
-<% end %>  
+<form method="post" action="/drinks/<%= @drink.id %>">
+  <input type="hidden" name="_method" value="put">
+  <p>
+    Edit.
+  </p>
+  <p>
+    <label for="booze">Booze:</label>
+    <input type="text" name="booze" id="booze" value= <%= @drink.booze%>>
+  </p>
+  <p>
+    <label for="mixer">Mixer:</label>
+    <input type="text" name="mixer" id="mixer" value= <%= @drink.mixer%>>
+  </p>
+  <p>
+    <label for="glass">Glass:</label>
+    <input type="glass" name="glass" id="glass" value= <%= @drink.glass%>>
+  </p>
+  <p>
+    <label for="name">Name:</label>
+    <input type="text" name="name" id="name" value= <%= @drink.name%>>
+  </p>
+  <p>
+    <button type="submit">Edit Your Drink!</button>
+  </p>
+</form>

@@ -5,11 +5,10 @@ require 'sinatra'
 require 'repository'
 require 'drinks'
 require 'drink'
-require 'spec_helper'
-
 
 Repository.register(:drink, Drinks.new)
 
+# add seed here
 
 class DrinkApp < Sinatra::Application
   get '/' do
@@ -17,38 +16,50 @@ class DrinkApp < Sinatra::Application
   end
 
   get "/drinks/new" do
-    @drink = Repository.register(:drink, Drinks.new)
     erb '/drinks/new'.to_sym
   end
 
   post "/drinks" do
-    @drink = Drink.new(:params)
-    Repository.for(:drink).save(@drink)
-    #erb '/drinks/new'.to_sym
+    @drink = Drink.new(params)
+    Repository.for(:drink).save(@drink) #Repo.for(:drink) returns the drink obj
+    erb "/drinks/show".to_sym
   end
 
+  get "/drinks" do 
+    drink_datastore_instance = Repository.for(:drink) #returning value that has records hash
+    @drinks = drink_datastore_instance.all
+    erb 'drinks/index'.to_sym
+  end
 
-  # get '/drinks' do
-  #   @drinks = DrinkRepository.for(:drink).all
+  get '/drink/:id' do
+    id = params[:id].to_i
+    @drink = Repository.for(:drink).find_by_id(id)
+    erb '/drinks/show'.to_sym
+  end
 
-  #   erb 'drinks/index'.to_sym
-  # end
+  put '/drink/:id' do
+    id = params[:id].to_i
+    @drink = Repository.for(:drink).find_by_id(id)
+    erb 'drink/:id'
+  end
 
-  # get '/drink/:id' do
-  #   @drink = DrinkRepository.for(:drink).find_by_id(:id)
+  get "/drink/:id/edit" do
+    id = params[:id].to_i
+    @drink = Repository.for(:drink).find_by_id(id).update(params)
+    redirect "/drink/#{params[:id]}".to_sym
+  end
 
-  #   erb '/drinks/show'.to_sym
-  # end
+  put "/drink/:id/edit" do
+    # ?
+  end
 
-  # get '/drink/:id/delete' do
-  #   @drink = DrinkRepository.for(:drink).find_by_id(:id)
+  get '/drink/:id/delete' do
+    id = params[:id].to_i
+    @drink = Repository.for(:drink).find_by_id(id)
+    erb 'drinks/delete'.to_sym
+  end
 
-  #   erb 'drinks/delete'.to_sym
-  # end
-
-  # delete '/drink/:id/delete' do
-  #   @drink = DrinkRepository.for(:drink).find_by_id(:id)
-  #   @drink.destroy 
-  # end
-
+  get '/drinks/delete' do
+    erb '/drinks/delete'.to_sym
+  end
 end

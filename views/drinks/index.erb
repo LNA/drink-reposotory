@@ -1,9 +1,12 @@
-<h1>Drinks</h1>
+<h1>See All Drinks</h1>
 
 <ul>
   <% @drinks.each do |drink| %>
     <li>
-      <%= drink.booze %> - <%= user.mixer %> - <%= user.glass %>
+      <%= drink.name %> - <%= drink.booze %> - 
+      <%= drink.mixer %> - <%= drink.glass %>
+      <%= drink.id %>  - <a href="/drink/<%= drink.id %>">Go To Drink</a>
     </li>
   <% end %>
  </ul>
+<a href="/drinks/new">Add A New Drink</a>

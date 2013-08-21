@@ -1,29 +1,26 @@
 
-<section id="add">  
-  <form action="/" method="post">  
-    <textarea name="content" placeholder="Your drink&hellip;"></textarea>  
-    <input type="submit" value="Make My Drink!">  
-  </form>  
-</section>  
+	<p>  
+    <%= @drink.name%>  
+  </p> 
+  <p>  
+    <%= @drink.booze %>  
+  </p>  
+  <p>  
+    <%= @drink.mixer %> 
+  </p> 
+  <p>  
+    <%= @drink.glass%>  
+  </p> 
+  <p>
+    <a href="/drinks/new">Add A New Drink</a>
+  </p>
+  <p>
+    <a href="/drinks">See All Drinks</a>
+  </p>
+
+  <p>
+    <a href="/drink/<%= @drink.id %>/edit">Edit This Drink</a>
+  </p>
   
-<% @drinks.each do |note| %>  
-  <article <%= 'class="complete"' if drink.complete %>>  
-    <p>  
-      <%= drink.booze %>  
-      <span><a href="/<%= note.id %>">[edit]</a></span>  
-    </p>  
-    <p>  
-      <%= drink.mixer %>  
-      <span><a href="/<%= note.id %>">[edit]</a></span>  
-    </p> 
-    <p>  
-      <%= drink.glass %>  
-      <span><a href="/<%= note.id %>">[edit]</a></span>  
-    </p> 
-    <p class="links">  
-      <a href="/<%= drink.id %>/complete">&#8623;</a>  
-    </p>  
-    <p class="meta">Created: <%= drink.created_at %></p>  
-  </article>  
-<% end %>  
+
 

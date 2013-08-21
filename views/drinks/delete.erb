@@ -1,5 +1,5 @@
 <% if @drink %>  
-  <p>Are you sure you want to delete the following drink: <em>"<%= @drink.content %>"</em>?</p>  
+  <p>Are you sure you want to delete the following drink: <em>"<%= @drink.name %>"</em>?</p>  
   <form action="/<%= @drink.id %>" method="post">  
     <input type="hidden" name="_method" value="delete">  
     <input type="submit" value="Yes, Delete It!">  

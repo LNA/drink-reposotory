@@ -9,7 +9,7 @@ class Repository
     @repositories ||= {}
   end
 
-  def self.for(type)
+  def self.for(type) #returns the Drink class
     repositories[type]
   end
 end
