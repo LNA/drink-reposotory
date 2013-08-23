@@ -45,12 +45,16 @@ class DrinkApp < Sinatra::Application
 
   get "/drink/:id/edit" do
     id = params[:id].to_i
-    @drink = Repository.for(:drink).find_by_id(id).update(params)
-    redirect "/drink/#{params[:id]}".to_sym
+    @drink = Repository.for(:drink).find_by_id(id)
+    erb "/drink/id/edit".to_sym
   end
 
   put "/drink/:id/edit" do
-    # ?
+    id = params[:id].to_i
+    @drink = Repository.for(:drink).find_by_id(id)
+    @drink.update(params)
+    @drink
+    erb "/drink/id/".to_sym
   end
 
   get '/drink/:id/delete' do
