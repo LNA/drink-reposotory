@@ -50,11 +50,18 @@ describe DrinkApp do
     end
   end
 
+   describe " get '/drink/:id' " do
+    it "returns the drink id" do
+      Repository.should_receive(:for).and_return(:id)
+      get '/drink/:id'
+    end
+  end
 
-  describe "get 'drinks/update " do
-    it "returns the show page" do
-      get 'drinks/update'
-      last_response.should be_ok
+  describe " put '/drink/:id/edit' " do
+    it "updates a specific drink" do
+      Repository.should_receive(:for).and_return(:drink)
+      Drink.should_receive(:find_by_id).and_return(@drink)
+      @drink.should_receive(:update)
     end
   end
 
@@ -62,13 +69,6 @@ describe DrinkApp do
     it "loads the delete view" do
       get '/drinks/delete'
       last_response.should be_ok
-    end
-  end
-
-  describe " get '/drink/:id' " do
-    it "returns the drink id" do
-      Repository.should_receive(:for).and_return(:id)
-      get '/drink/:id'
     end
   end
 

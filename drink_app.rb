@@ -40,7 +40,7 @@ class DrinkApp < Sinatra::Application
   put '/drink/:id' do
     id = params[:id].to_i
     @drink = Repository.for(:drink).find_by_id(id)
-    erb 'drink/:id'
+    erb 'drink/show'.to_sym
   end
 
   get "/drink/:id/edit" do
@@ -53,7 +53,7 @@ class DrinkApp < Sinatra::Application
     id = params[:id].to_i
     @drink = Repository.for(:drink).find_by_id(id)
     @drink.update(params)
-    erb "/drink/:id".to_sym
+    erb "/drinks/show".to_sym
   end
 
   get '/drink/:id/delete' do
