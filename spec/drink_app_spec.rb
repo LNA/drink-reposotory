@@ -43,32 +43,73 @@ describe DrinkApp do
       Repository.for(:drink).save(@drink)
       post '/drinks'
     end
-
-    it "returns the show page" do
-      get '/drinks/show'
-      last_response.should be_ok
-    end
   end
 
    describe " get '/drink/:id' " do
     it "returns the drink id" do
-      Repository.should_receive(:for).and_return(:id)
-      get '/drink/:id'
-    end
-  end
-
-  describe " put '/drink/:id/edit' " do
-    it "updates a specific drink" do
-      Repository.should_receive(:for).and_return(:drink)
-      Drink.should_receive(:find_by_id).and_return(@drink)
-      @drink.should_receive(:update)
-    end
-  end
-
-  describe " get '/drinks/delete' " do
-    it "loads the delete view" do
-      get '/drinks/delete'
+      params = {:booze => 'vodka',
+               :mixer => 'water',
+               :glass => 'rocks'}
+      @drink = Drink.new(params)
+      Repository.for(:drink).save(@drink)
+      get '/drink/1'
       last_response.should be_ok
+    end
+  end
+
+  describe "updating a drink" do
+    before :each do
+      params = {:booze => 'vodka',
+               :mixer => 'water',
+               :glass => 'rocks'}
+      @drink = Drink.new(params)
+      Repository.for(:drink).save(@drink)
+    end
+
+    it "fetches the drink to update from the repository" do
+      Repository.for(:drink).should_receive(:find_by_id).with(1)
+      put "drink/1"
+    end
+
+    it "updates a specific drink" do
+      params = {"booze"=>"rum", "splat"=>[], "captures"=>["2"], "id"=>"2"}
+      @drink.should_receive(:update).with(params)
+      put "drink/#{@drink.id}", params
+    end
+
+    it "renders the show page after updating a drink" do
+      put "drink/#{@drink.id}"
+      last_response.should be_ok
+    end
+  end
+
+  describe "deleting a drink" do
+    before :each do
+      params = {:booze => 'vodka',
+               :mixer => 'water',
+               :glass => 'rocks'}
+      @drink = Drink.new(params)
+      Repository.for(:drink).save(@drink)
+    end
+
+    it 'loads a specific drink for the delete view' do
+      Repository.for(:drink).should_receive(:find_by_id).with(@drink.id)
+      get "drink/#{@drink.id}/delete"
+    end
+
+    it 'succesfully renders the show page' do
+      get "drink/#{@drink.id}/delete"
+      last_response.should be_ok
+    end
+
+    it 'deletes the drink by id' do
+      delete "/#{@drink.id}"
+      Repository.for(:drink).find_by_id(@drink.id).should == nil
+    end
+
+    it 'succesfully redirects to the drink index page after delete' do
+      delete "/#{@drink.id}"
+      last_response.should be_redirect
     end
   end
 
