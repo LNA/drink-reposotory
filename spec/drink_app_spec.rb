@@ -61,7 +61,8 @@ describe DrinkApp do
     before :each do
       params = {:booze => 'vodka',
                :mixer => 'water',
-               :glass => 'rocks'}
+               :glass => 'rocks',
+               :name =>  'drink1'}
       @drink = Drink.new(params)
       Repository.for(:drink).save(@drink)
     end
@@ -110,13 +111,6 @@ describe DrinkApp do
     it 'succesfully redirects to the drink index page after delete' do
       delete "/#{@drink.id}"
       last_response.should be_redirect
-    end
-  end
-
-  describe " get '/drink/:id/delete' " do
-    it "deletes a drink" do
-      Drink.should_receive(:delete)
-      get '/drink/:id'
     end
   end
 end
