@@ -10,21 +10,12 @@ describe DrinkApp do
     last_response.should be_ok
   end
 
-  describe "get 'drinks/new' " do
+  describe "creating a drink " do
     it 'loads the new drink page' do
       get '/drinks/new'
       last_response.should be_ok
     end
-  end
 
-  describe " get '/drinks' " do
-    it "displays a list of all drinks" do
-      get "/drinks"
-      last_response.should be_ok
-    end
-  end
-
-  describe "post '/drinks' " do
     it 'initializes a new drink' do
       Drink.should_receive(:new)
       post '/drinks'
@@ -43,9 +34,7 @@ describe DrinkApp do
       Repository.for(:drink).save(@drink)
       post '/drinks'
     end
-  end
 
-   describe " get '/drink/:id' " do
     it "returns the drink id" do
       params = {:booze => 'vodka',
                :mixer => 'water',
@@ -53,6 +42,13 @@ describe DrinkApp do
       @drink = Drink.new(params)
       Repository.for(:drink).save(@drink)
       get '/drink/1'
+      last_response.should be_ok
+    end
+  end
+
+  describe "Reading the drinks " do
+    it "displays a list of all drinks" do
+      get "/drinks"
       last_response.should be_ok
     end
   end
