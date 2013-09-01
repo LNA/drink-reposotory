@@ -1,0 +1,12 @@
+<h1>See All Guests</h1>
+
+<ul>
+  <% @guests.each do |guest| %>
+    <li>
+      <%= guest.name %> - <%= guest.booze %> - 
+      <%= guest.mixer %> - <%= guest.glass %>
+      <%= guest.id %>  - <a href="/guest/<%= guest.id %>">Go To Guest</a>
+    </li>
+  <% end %>
+ </ul>
+<a href="/guests/new">Add A New Guest</a>

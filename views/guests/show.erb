@@ -1,0 +1,25 @@
+<p>  
+  <%= @guest.name%>  
+</p> 
+<p>  
+  <%= @guest.booze %>  
+</p>  
+<p>  
+  <%= @guest.mixer %> 
+</p> 
+<p>  
+  <%= @guest.glass%>  
+</p> 
+<p>
+  <a href="/guests/new">Add A New Guest</a>
+</p>
+<p>
+  <a href="/guests">See All Guests</a>
+</p>
+
+<p>
+  <a href="/guest/<%= @guest.id %>/edit">Edit This Guest</a>
+</p>
+<p>
+  <a href="/guest/<%= @guest.id %>/delete">Delete This Guest</a>
+</p>

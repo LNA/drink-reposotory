@@ -1,5 +1,5 @@
 class Guests
-  attr_accessor :records, :guest, :id
+  attr_accessor :records, :id, :guest
 
   def initialize
     @records = {}

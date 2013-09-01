@@ -1,0 +1,10 @@
+<% if @guest %>  
+  <p>Are you sure you want to delete the following guest: <em>"<%= @guest.name %>"</em>?</p>  
+  <form action="/<%= @guest.id %>" method="post">  
+    <input type="hidden" name="_method" value="delete">  
+    <input type="submit" value="Yes, Delete This Guest!">  
+    <a href="/guest/<%= @guest.id %>">Cancel</a>  
+  </form>  
+<% else %>  
+  <p>Guest not found.</p>  
+<% end %>
