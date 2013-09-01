@@ -5,20 +5,11 @@ require 'sinatra'
 require 'repository'
 require 'drinks'
 require 'drink'
+require './seed'
 
 Repository.register(:drink, Drinks.new)
 
-class Seed
-  def self.drinks
-    @drink1 = Drink.new(:booze => "vodka", :mixer => "water", :glass => "rocks",:name => "drink1")
-    @drink2 = Drink.new(:booze => "gin", :mixer => "tonic", :glass => "tall",:name => "drink2" )
-    @drink3 = Drink.new(:booze => "ryb", :mixer => "sour", :glass => "tall",:name => "drink3")
-
-    [@drink1, @drink2, @drink3].each do |drink|
-      Repository.for(:drink).save(drink)
-    end
-  end
-end
+Seed.drinks
 
 class DrinkApp < Sinatra::Application
   get '/' do
@@ -58,13 +49,6 @@ class DrinkApp < Sinatra::Application
     id = params[:id].to_i
     @drink = Repository.for(:drink).find_by_id(id)
     erb "/drinks/edit".to_sym
-  end
-
-  put "/drink/:id/edit" do
-    id = params[:id].to_i
-    @drink = Repository.for(:drink).find_by_id(id)
-    @drink.update(params)
-    erb "/drinks/show".to_sym
   end
 
   get '/drink/:id/delete' do

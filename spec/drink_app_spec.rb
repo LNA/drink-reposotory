@@ -69,7 +69,7 @@ describe DrinkApp do
     end
 
     it "updates a specific drink" do
-      params = {"booze"=>"rum", "splat"=>[], "captures"=>["2"], "id"=>"2"}
+      params = {"booze"=>"rum", "splat"=>[], "captures"=>["#{@drink.id}"], "id"=>"#{@drink.id}"}
       @drink.should_receive(:update).with(params)
       put "drink/#{@drink.id}", params
     end
