@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'drinks'
 require 'drink'
 
-describe "the drinks datastore" do
+describe "initializing the drinks datastore" do
   before :each do
     @datastore = Drinks.new
   end
