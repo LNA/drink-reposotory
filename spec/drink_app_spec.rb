@@ -11,6 +11,15 @@ describe DrinkApp do
   end
 
   describe 'Creating a drink' do
+
+    before :each do
+      params = {:booze => 'vodka',
+               :mixer => 'water',
+               :glass => 'rocks',
+               :name =>  'drink1'}
+      @drink = Drink.new(params)
+    end
+
     it 'loads the new drink page' do
       get '/drinks/new'
       last_response.should be_ok
@@ -27,19 +36,11 @@ describe DrinkApp do
     end
 
     it 'saves a new drink object to the datastore' do
-      params = {:booze => 'vodka',
-               :mixer => 'water',
-               :glass => 'rocks'}
-      @drink = Drink.new(params)
       Repository.for(:drink).save(@drink)
       post '/drinks'
     end
 
     it 'returns the drink id' do
-      params = {:booze => 'vodka',
-               :mixer => 'water',
-               :glass => 'rocks'}
-      @drink = Drink.new(params)
       Repository.for(:drink).save(@drink)
       get '/drink/1'
       last_response.should be_ok
@@ -111,49 +112,97 @@ describe DrinkApp do
   end
 
   describe 'Creating a guest' do 
+
+    before :each do
+      params = {:first_name => 'Jay',
+               :last_name => 'Crew'}
+      @guest= Guest.new(params)
+    end
+
     it 'loads the new guest page' do
+      get '/guests/new'
+      last_response.should be_ok
     end
 
     it 'initializes a new guest' do
+      Guest.should_receive(:new)
+      post '/guests'
     end
-
+  
     it 'sends a guest to the datastore' do
+      Repository.should_receive(:for).and_return(@guest)
+      post '/guests'
     end
 
     it 'saves a new guest object to the datastore' do
+      Repository.for(:guest).save(@guest)
+      post '/guests'
     end
 
     it 'returns the guest id' do
+      Repository.should_receive(:for).and_return(:id)
+      post '/guests'
     end
   end
 
   describe 'Reading all guests' do
     it 'displays a list of all drinks' do
+      get '/guests'
+      last_response.should be_ok
     end
   end
 
   describe 'Updating a guest' do
+
+    before :each do
+      params = {:first_name => 'Jay',
+               :last_name => 'Crew'}
+      @guest= Guest.new(params)
+    end
+
     it 'fetches the guest to update from the repository' do
+      Repository.for(:guest).should_receive(:find_by_id).with(1)
+      put "guest/1"
     end
 
     it 'updates a specific guest' do
+      params = {:first_name =>"Cindy", "splat"=>[], "captures"=>["#{@guest.id}"], "id"=>"#{@guest.id}"}
+      @guest.should_receive(:update).with(params)
+      put "guest/#{@guest.id}", params
     end
 
     it 'renders the show page after updating a guest' do
+      put "guest/#{@guest.id}"
+      last_response.should be_ok
     end
   end
 
   describe 'Deleting a guest' do
-    it 'loads a specific guest for the delete view' do
+
+    before :each do
+      params = {:first_name => 'Jay',
+               :last_name => 'Crew'}
+      @guest= Guest.new(params)
     end
 
-    it 'sucessfully renders the show page' do
+    it 'loads a specific guest for the delete view' do
+      Repository.for(:guest).should_receive(:find_by_id).with(@guest.id)
+      get "guest/#{@guest.id}/delete"
+    end
+
+    it 'sucessfully renders the delete page' do
+      get "guest/#{@guest.id}/delete"
+      last_response.should be_ok
     end
 
     it 'deletes a guest by id' do
+      delete "/#{@guest.id}"
+      Repository.for(:guest).find_by_id(@guest.id).should == nil
     end
 
     it 'successfully redirects to the guest index page after delete' do
+      delete "/#{@guest.id}"
+      last_response.should be_redirect
     end
   end
 end

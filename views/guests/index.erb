@@ -3,8 +3,8 @@
 <ul>
   <% @guests.each do |guest| %>
     <li>
-      <%= guest.name %> - <%= guest.booze %> - 
-      <%= guest.mixer %> - <%= guest.glass %>
+      <%= guest.first_name %> - <%= guest.first_name %> - 
+      <%= guest.last_name %> - <%= guest.last_name %>
       <%= guest.id %>  - <a href="/guest/<%= guest.id %>">Go To Guest</a>
     </li>
   <% end %>
