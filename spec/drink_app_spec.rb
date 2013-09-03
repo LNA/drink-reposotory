@@ -158,6 +158,7 @@ describe DrinkApp do
       params = {:first_name => 'Jay',
                :last_name => 'Crew'}
       @guest= Guest.new(params)
+      Repository.for(:guest).save(@guest)
     end
 
     it 'fetches the guest to update from the repository' do
@@ -167,8 +168,8 @@ describe DrinkApp do
 
     it 'updates a specific guest' do
       params = {:first_name =>"Cindy", "splat"=>[], "captures"=>["#{@guest.id}"], "id"=>"#{@guest.id}"}
-      @guest.should_receive(:update).with(params)
-      put "guest/#{@guest.id}", params
+      @guest.should_receive(:update)
+      put "guest/#{@guest.id}"
     end
 
     it 'renders the show page after updating a guest' do
@@ -183,6 +184,7 @@ describe DrinkApp do
       params = {:first_name => 'Jay',
                :last_name => 'Crew'}
       @guest= Guest.new(params)
+      Repository.for(:guest).save(@guest)
     end
 
     it 'loads a specific guest for the delete view' do
@@ -196,12 +198,12 @@ describe DrinkApp do
     end
 
     it 'deletes a guest by id' do
-      delete "/#{@guest.id}"
+      delete "guest/#{@guest.id}"
       Repository.for(:guest).find_by_id(@guest.id).should == nil
     end
 
     it 'successfully redirects to the guest index page after delete' do
-      delete "/#{@guest.id}"
+      delete "guest/#{@guest.id}"
       last_response.should be_redirect
     end
   end

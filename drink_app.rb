@@ -85,7 +85,7 @@ class DrinkApp < Sinatra::Application
 
   put '/guest/:id' do
     id = params[:id].to_i
-    @drink = Repository.for(:guest).find_by_id(id)
+    @guest = Repository.for(:guest).find_by_id(id)
     @guest.update(params)
     erb 'guests/show'.to_sym
   end
@@ -96,15 +96,17 @@ class DrinkApp < Sinatra::Application
     erb '/guests/edit'.to_sym
   end
 
+  delete '/guest/:id' do
+    id = params[:id].to_i
+    @guest = Repository.for(:guest).delete_by_id(id)
+    redirect '/guests'
+  end
+
   get '/guest/:id/delete' do
     id = params[:id].to_i
     @guest = Repository.for(:guest).find_by_id(id)
     erb 'guests/delete'.to_sym
   end
 
-  delete '/:id' do
-    id = params[:id].to_i
-    @guest = Repository.for(:guest).delete_by_id(id)
-    redirect '/guests'
-  end
+
 end
