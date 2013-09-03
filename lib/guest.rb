@@ -1,5 +1,5 @@
 class Guest
-	attr_accessor :first_name, :last_name
+	attr_accessor :first_name, :last_name, :id
 
 	def initialize(params = {})
 		@first_name = params[:first_name]

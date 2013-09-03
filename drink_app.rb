@@ -6,14 +6,18 @@ require 'repository'
 require 'drinks'
 require 'drink'
 require './seed'
+require 'guest'
+require 'guests'
 
 Repository.register(:drink, Drinks.new)
+Repository.register(:guest, Guests.new)
 
 Seed.drinks
+Seed.guests
 
 class DrinkApp < Sinatra::Application
   get '/' do
-    "Hello World"
+    "Welcome to Drink App."
   end
 
   get "/drinks/new" do

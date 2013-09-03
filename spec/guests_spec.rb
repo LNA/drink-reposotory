@@ -27,8 +27,11 @@ describe "the datastore methods" do
              }
     @guest1 = Guest.new(params)
     @datastore.save(@guest1)
+    params2 = {:first_name => 'Peanut',
+              :last_name => 'Butter'
+             }
     @guest2 = Guest.new(params)
-    @datastore.save(@guest1)
+    @datastore.save(@guest2)
   end
 
   context "#save" do
@@ -52,7 +55,7 @@ describe "the datastore methods" do
 
   context "#all" do
     it "returns all guests" do
-      @datastore.all.should == [@guest1]
+      @datastore.all.should == [@guest1, @guest2]
     end
 
     it "returns an empty array if it has no guests" do
@@ -70,7 +73,7 @@ describe "the datastore methods" do
   context "#delete_by_id" do
     it "deletes a drink" do
       @datastore.delete_by_id(1)
-      @datastore.all.should == [@guest1]
+      @datastore.all.should == [@guest2]
     end
   end
 end
