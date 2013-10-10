@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'mock_datastore'
 
 describe DrinkApp do
   def app
@@ -13,11 +14,11 @@ describe DrinkApp do
   describe 'Creating a drink' do
 
     before :each do
-      params = {:booze => 'vodka',
+      @params = {:booze => 'vodka',
                :mixer => 'water',
                :glass => 'rocks',
                :name =>  'drink1'}
-      @drink = Drink.new(params)
+      @drink = Drink.new(@params)
     end
 
     it 'loads the new drink page' do
@@ -31,13 +32,10 @@ describe DrinkApp do
     end
 
     it 'sends a drink to the datastore' do
-      Repository.should_receive(:for).and_return(:drink)
-      post '/drinks'
-    end
-
-    it 'saves a new drink object to the datastore' do
-      Repository.for(:drink).save(@drink)
-      post '/drinks'
+      mock = MockDatastore.new
+      Repository.should_receive(:for).and_return(mock)
+      post '/drinks', @params
+      mock.item.booze == 'vodka'
     end
 
     it 'returns the drink id' do
@@ -114,9 +112,9 @@ describe DrinkApp do
   describe 'Creating a guest' do 
 
     before :each do
-      params = {:first_name => 'Jay',
+      @params = {:first_name => 'Jay',
                :last_name => 'Crew'}
-      @guest= Guest.new(params)
+      @guest= Guest.new(@params)
     end
 
     it 'loads the new guest page' do
@@ -130,8 +128,10 @@ describe DrinkApp do
     end
   
     it 'sends a guest to the datastore' do
-      Repository.should_receive(:for).and_return(@guest)
-      post '/guests'
+      mock = MockDatastore.new
+      Repository.should_receive(:for).and_return(mock)
+      post '/guests', @params
+      mock.item.first_name.should == 'Jay'
     end
 
     it 'saves a new guest object to the datastore' do
@@ -167,14 +167,17 @@ describe DrinkApp do
     end
 
     it 'updates a specific guest' do
-      params = {:first_name =>"Cindy", "splat"=>[], "captures"=>["#{@guest.id}"], "id"=>"#{@guest.id}"}
-      @guest.should_receive(:update)
-      put "guest/#{@guest.id}"
+      params = {"first_name" =>"Cindy", "splat"=>[], "captures"=>["#{@guest.id}"], "id"=>"#{@guest.id}"}
+      @guest.should_receive(:update).with(params)
+      put "guest/#{@guest.id}", params
     end
 
     it 'renders the show page after updating a guest' do
       put "guest/#{@guest.id}"
-      last_response.should be_ok
+      last_response.should be_redirect
+    end
+
+    it 'adds a drink to a guest' do
     end
   end
 

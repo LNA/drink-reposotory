@@ -5,6 +5,8 @@ configure do
   require 'sinatra'
   require 'drink_repository'
   require 'spec_helper'
+  require 'sinatra-activerecord'
+  require 'sqlite3'
 end
 
 configure :test, :development do

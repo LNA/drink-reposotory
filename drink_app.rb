@@ -8,6 +8,7 @@ require 'drink'
 require './seed'
 require 'guest'
 require 'guests'
+require 'sinatra/activerecord'
 
 Repository.register(:drink, Drinks.new)
 Repository.register(:guest, Guests.new)
@@ -74,7 +75,7 @@ class DrinkApp < Sinatra::Application
   post '/guests' do
     @guest = Guest.new(params)
     Repository.for(:guest).save(@guest) 
-    erb '/guests/show'.to_sym
+    redirect '/guests'
   end
 
   get '/guests' do
@@ -83,11 +84,19 @@ class DrinkApp < Sinatra::Application
     erb 'guests/index'.to_sym
   end
 
+  get '/guest/:id' do
+    id = params[:id].to_i
+    @guest = Repository.for(:guest).find_by_id(id)
+    drink_datastore_instance = Repository.for(:drink) 
+    @drinks = drink_datastore_instance.all
+    erb '/guests/show'.to_sym
+  end
+
   put '/guest/:id' do
     id = params[:id].to_i
     @guest = Repository.for(:guest).find_by_id(id)
     @guest.update(params)
-    erb 'guests/show'.to_sym
+    redirect "/guest/#{id}"
   end
 
   get '/guest/:id/edit' do
@@ -107,6 +116,4 @@ class DrinkApp < Sinatra::Application
     @guest = Repository.for(:guest).find_by_id(id)
     erb 'guests/delete'.to_sym
   end
-
-
 end

@@ -3,7 +3,34 @@
 </p> 
 <p>  
   <%= @guest.last_name %>  
+</p>
+<p>
+  Add A Drink To The Guest
+
+  <ul>
+  <% @drinks.each do |drink| %>
+    <li>
+      <%= drink.name %> - <%= drink.booze %> - 
+      <%= drink.mixer %> - <%= drink.glass %>
+     <form action="/guest/<%= @guest.id %>" method="post">
+      <input type="hidden" name="_method" value="put">
+	    <input type="hidden" name="drink_id" value= <%= drink.id%>>  
+	    <input type="submit" value="Yes, Add this drink!">  
+    </form>  
+    </li>
+  <% end %>
+ </ul>
 </p>  
+<p>
+  <ul>
+  <% @guest.drinks.each do |drink| %>
+  <li>
+    <%= drink.name %>
+  </li>
+  <% end %>
+</ul>
+</p>
+
 <p>
   <a href="/guests/new">Add A New Guest</a>
 </p>

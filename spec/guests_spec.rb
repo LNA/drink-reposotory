@@ -28,9 +28,10 @@ describe 'the datastore methods' do
     @guest1 = Guest.new(params)
     @datastore.save(@guest1)
     params2 = {:first_name => 'Peanut',
-              :last_name => 'Butter'
+              :last_name => 'Butter',
+              :drink => 'drink1'
              }
-    @guest2 = Guest.new(params)
+    @guest2 = Guest.new(params2)
     @datastore.save(@guest2)
   end
 
