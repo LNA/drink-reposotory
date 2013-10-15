@@ -10,8 +10,11 @@ require 'guest'
 require 'guests'
 require 'sinatra/activerecord'
 
+
 Repository.register(:drink, Drinks.new)
 Repository.register(:guest, Guests.new)
+
+# Repository.register(:drink, ARDrinks.new)
 
 Seed.drinks
 Seed.guests

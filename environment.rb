@@ -11,4 +11,9 @@ end
 
 configure :test, :development do
    Repository.register(:drink, Drinks.new)
- end
+end
+
+ActiveRecord::Base.establish_connection(
+  :adapter  => "sqlite3",
+  :database => "db.sqlite3"
+)

@@ -1,5 +1,5 @@
-class Drink
-  attr_accessor :params, :booze, :mixer, :glass, :id, :name
+class Drink 
+  attr_accessor :booze, :mixer, :glass, :id, :name
   def initialize(params = {})
     @booze = params[:booze]
     @mixer = params[:mixer]

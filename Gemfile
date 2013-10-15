@@ -7,4 +7,5 @@ gem 'thin'
 gem 'rspec'
 
 gem 'sinatra-activerecord' 
+gem 'activerecord'
 gem 'sqlite3'
