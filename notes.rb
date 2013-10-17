@@ -11,5 +11,5 @@
 
 # 3 configurations:
 # => Telling AR to use SQLite3 and how to do it.  what adapter to use
-# => Telling SQLite3 what tables and colums it has
+# => Telling SQLite3 what tables and columns it has
 # => Register the AR datastores with the Repository interface/pointer.

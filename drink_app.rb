@@ -2,19 +2,20 @@ $: << File.expand_path(File.dirname(__FILE__)) + '/lib'
 Dir[File.dirname(__FILE__) + '/lib/models/*.rb'].each {|file| require file }
 
 require 'sinatra'
+require 'sinatra/activerecord'
 require 'repository'
 require 'drinks'
 require 'drink'
 require './seed'
 require 'guest'
 require 'guests'
-require 'sinatra/activerecord'
 
+set :database, 'sqlite3:///drinks.db'
 
 Repository.register(:drink, Drinks.new)
 Repository.register(:guest, Guests.new)
 
-# Repository.register(:drink, ARDrinks.new)
+# Repository.register(:drink, AR::Drink) 
 
 Seed.drinks
 Seed.guests

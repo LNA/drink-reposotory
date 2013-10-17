@@ -1,4 +1,4 @@
 module AR
-	class Drinks << ActiveRecord::Base
+	class Drink < ActiveRecord::Base
 	end
 end
