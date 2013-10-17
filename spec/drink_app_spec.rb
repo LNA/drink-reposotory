@@ -6,13 +6,14 @@ describe DrinkApp do
     @app ||= DrinkApp
   end
 
-  it 'loads home page' do
-    get "/" 
-    last_response.should be_ok
+  describe 'the home page' do
+    it 'loads home page' do
+      get "/" 
+      last_response.should be_ok
+    end
   end
 
-  describe 'Creating a drink' do
-
+  describe 'Drinks pages' do
     before :each do
       @params = {:booze => 'vodka',
                :mixer => 'water',
@@ -21,38 +22,30 @@ describe DrinkApp do
       @drink = Drink.new(@params)
     end
 
-    it 'loads the new drink page' do
+    it 'displays the form for creating new drinks' do
       get '/drinks/new'
       last_response.should be_ok
     end
 
-    it 'initializes a new drink' do
+    it 'creates a new drink object' do
       Drink.should_receive(:new)
       post '/drinks'
     end
 
-    it 'sends a drink to the datastore' do
+    it 'sends a new drink object to the datastore' do
       mock = MockDatastore.new
       Repository.should_receive(:for).and_return(mock)
       post '/drinks', @params
       mock.item.booze == 'vodka'
     end
 
-    it 'returns the drink id' do
-      Repository.for(:drink).save(@drink)
-      get '/drink/1'
+    it 'displays a list of all drinks' do
+      get '/drinks'
       last_response.should be_ok
     end
   end
 
-  describe 'Reading the drinks' do
-    it "displays a list of all drinks" do
-      get "/drinks"
-      last_response.should be_ok
-    end
-  end
-
-  describe 'Updating a drink' do
+  describe 'Pages for a single drink' do
     before :each do
       params = {:booze => 'vodka',
                :mixer => 'water',
@@ -60,6 +53,12 @@ describe DrinkApp do
                :name =>  'drink1'}
       @drink = Drink.new(params)
       Repository.for(:drink).save(@drink)
+    end
+
+    it 'returns the drink id' do
+      Repository.for(:drink).save(@drink)
+      get '/drink/1'
+      last_response.should be_ok
     end
 
     it 'fetches the drink to update from the repository' do
@@ -76,16 +75,6 @@ describe DrinkApp do
     it 'renders the show page after updating a drink' do
       put "drink/#{@drink.id}"
       last_response.should be_ok
-    end
-  end
-
-  describe 'Deleting a drink' do
-    before :each do
-      params = {:booze => 'vodka',
-               :mixer => 'water',
-               :glass => 'rocks'}
-      @drink = Drink.new(params)
-      Repository.for(:drink).save(@drink)
     end
 
     it 'loads a specific drink for the delete view' do
@@ -109,7 +98,7 @@ describe DrinkApp do
     end
   end
 
-  describe 'Creating a guest' do 
+  describe 'Guests pages' do 
 
     before :each do
       @params = {:first_name => 'Jay',
@@ -117,17 +106,17 @@ describe DrinkApp do
       @guest= Guest.new(@params)
     end
 
-    it 'loads the new guest page' do
+    it 'displays the new guest page' do
       get '/guests/new'
       last_response.should be_ok
     end
 
-    it 'initializes a new guest' do
+    it 'creates a new guest object' do
       Guest.should_receive(:new)
       post '/guests'
     end
   
-    it 'sends a guest to the datastore' do
+    it 'sends a new guest object to the datastore' do
       mock = MockDatastore.new
       Repository.should_receive(:for).and_return(mock)
       post '/guests', @params
@@ -139,26 +128,24 @@ describe DrinkApp do
       post '/guests'
     end
 
-    it 'returns the guest id' do
-      Repository.should_receive(:for).and_return(:id)
-      post '/guests'
-    end
-  end
-
-  describe 'Reading all guests' do
-    it 'displays a list of all drinks' do
+    it 'displays a list of all guests' do
       get '/guests'
       last_response.should be_ok
     end
   end
 
-  describe 'Updating a guest' do
+  describe 'Pages for a single guest' do
 
     before :each do
       params = {:first_name => 'Jay',
                :last_name => 'Crew'}
       @guest= Guest.new(params)
       Repository.for(:guest).save(@guest)
+    end
+
+    it 'returns the guest id' do
+      Repository.should_receive(:for).and_return(:id)
+      post '/guests'
     end
 
     it 'fetches the guest to update from the repository' do
@@ -175,19 +162,6 @@ describe DrinkApp do
     it 'renders the show page after updating a guest' do
       put "guest/#{@guest.id}"
       last_response.should be_redirect
-    end
-
-    it 'adds a drink to a guest' do
-    end
-  end
-
-  describe 'Deleting a guest' do
-
-    before :each do
-      params = {:first_name => 'Jay',
-               :last_name => 'Crew'}
-      @guest= Guest.new(params)
-      Repository.for(:guest).save(@guest)
     end
 
     it 'loads a specific guest for the delete view' do
