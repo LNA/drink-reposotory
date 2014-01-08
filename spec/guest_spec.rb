@@ -9,7 +9,7 @@ describe 'Guest' do
   before :each do
     @guest_datastore = Guests.new
     @guest_one_params = {:first_name => 'Bob',
-              :last_name => 'West'}
+                         :last_name => 'West'}
     @guest1 = Guest.new(@guest_one_params)
     @guest_datastore.save(@guest1)
   end

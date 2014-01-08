@@ -1,6 +1,6 @@
 class Drinks 
   attr_accessor :records, :id, :drink
-# look at template and strat. method to refactor out sim methods
+  
   def initialize
     @records = {}
     @id = 1
