@@ -9,13 +9,13 @@ require 'drink'
 require './seed'
 require 'guest'
 require 'guests'
+require 'orders'
 
 set :database, 'sqlite3:///drinks.db'
 
 Repository.register(:drink, Drinks.new)
 Repository.register(:guest, Guests.new)
-
-# Repository.register(:drink, AR::Drink) 
+Repository.register(:order, Orders.new) 
 
 Seed.drinks
 Seed.guests
@@ -42,27 +42,23 @@ class DrinkApp < Sinatra::Application
   end
 
   get '/drink/:id' do
-    id = params[:id].to_i
-    @drink = Repository.for(:drink).find_by_id(id)
+    find_drink_by_id
     erb '/drinks/show'.to_sym
   end
 
   put '/drink/:id' do
-    id = params[:id].to_i
-    @drink = Repository.for(:drink).find_by_id(id)
+    find_drink_by_id
     @drink.update(params)
     erb 'drinks/show'.to_sym
   end
 
   get '/drink/:id/edit' do
-    id = params[:id].to_i
-    @drink = Repository.for(:drink).find_by_id(id)
+    find_drink_by_id
     erb '/drinks/edit'.to_sym
   end
 
   get '/drink/:id/delete' do
-    id = params[:id].to_i
-    @drink = Repository.for(:drink).find_by_id(id)
+    find_drink_by_id
     erb 'drinks/delete'.to_sym
   end
 
@@ -120,4 +116,12 @@ class DrinkApp < Sinatra::Application
     @guest = Repository.for(:guest).find_by_id(id)
     erb 'guests/delete'.to_sym
   end
+
+  private
+
+  def find_drink_by_id
+    id = params[:id].to_i
+    @drink = Repository.for(:drink).find_by_id(id)
+  end
+
 end
