@@ -85,23 +85,19 @@ class DrinkApp < Sinatra::Application
   end
 
   get '/guest/:id' do
-    id = params[:id].to_i
-    @guest = Repository.for(:guest).find_by_id(id)
-    drink_datastore_instance = Repository.for(:drink) 
+    find_guest_by_id
     @drinks = drink_datastore_instance.all
     erb '/guests/show'.to_sym
   end
 
   put '/guest/:id' do
-    id = params[:id].to_i
-    @guest = Repository.for(:guest).find_by_id(id)
+    find_guest_by_id
     @guest.update(params)
     redirect "/guest/#{id}"
   end
 
   get '/guest/:id/edit' do
-    id = params[:id].to_i
-    @guest = Repository.for(:guest).find_by_id(id)
+    find_guest_by_id
     erb '/guests/edit'.to_sym
   end
 
@@ -112,8 +108,7 @@ class DrinkApp < Sinatra::Application
   end
 
   get '/guest/:id/delete' do
-    id = params[:id].to_i
-    @guest = Repository.for(:guest).find_by_id(id)
+    find_guest_by_id
     erb 'guests/delete'.to_sym
   end
 
@@ -122,6 +117,11 @@ class DrinkApp < Sinatra::Application
   def find_drink_by_id
     id = params[:id].to_i
     @drink = Repository.for(:drink).find_by_id(id)
+  end
+
+  def find_guest_by_id
+    id = params[:id].to_i
+    @guest = Repository.for(:guest).find_by_id(id)
   end
 
 end
