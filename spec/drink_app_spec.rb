@@ -183,5 +183,19 @@ describe DrinkApp do
       delete "guest/#{@guest.id}"
       last_response.should be_redirect
     end
+
+    context 'orders' do 
+      params =  { :booze => 'vodka',
+                  :mixer => 'water',
+                  :glass => 'rocks',
+                  :name =>  'drink1'} 
+      drink = Drink.new(params)
+      Repository.for(:drink).save(drink)
+
+      it 'creates an order for a guest' do
+        put "orders/#{@guest.id}/#{drink.id}"
+        @guest.orders.count.should == 1
+      end
+    end
   end
 end

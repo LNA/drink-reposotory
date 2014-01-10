@@ -1,5 +1,7 @@
 class Guest
-  attr_accessor :first_name, :last_name, :id, :drinks, :guests, :reposotory
+  attr_accessor :drinks, :first_name, :guests, :id, 
+                :last_name, :orders, :reposotory,
+                :orders
 
   def initialize(params = {})
     @first_name = params[:first_name]
