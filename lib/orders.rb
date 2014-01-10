@@ -1,6 +1,7 @@
 class Orders
   attr_accessor :records, :id, :orders, :drink_id,
-                :drinks, :guest, :guest_id
+                :drinks, :guest, :guest_id,
+                :increment_guest_id
 
   def initialize
     @records = {}
@@ -30,8 +31,7 @@ class Orders
   end
 
   def increment_guest_id(order)
-    @records[@id] = order 
-    @records[@id].guest.id = @id 
-    @id += 1
+    guest_id = guest_id(order)
+    guest_id += 1
   end
 end

@@ -118,26 +118,9 @@ describe 'the orders datastore methods' do
     @order_datastore.guest_id(@order_1).should == 1
   end
 
-  # context '#increment_guest_id' do 
-  #   it 'increments the guest id by 1' do
-  #     @order_datastore.increment_guest_id(@order_2)
-  #     @order_datastore.records[2].guest.records.first.last.id
-
-  #   end
-
-  #   it 'does not increment the first guest id' do
-  #     require 'pry'
-  #     binding.pry
-  #     @order_datastore.increment_guest_id(@order_1)
-  #     @order_datastore.records[1].id.
-  #   end
-  # end
-
-  # context '#find_or_create_by' do 
-  #   it 'finds an order' do 
-  #     require 'pry'
-  #     binding.pry
-  #     @order_datastore.find_relationship.should == @order_1
-  #   end
-  # end
+  context '#increment_guest_id' do 
+    it 'increments the guest id by 1' do
+      @order_datastore.increment_guest_id(@order_2).should == 2
+    end
+  end
 end
