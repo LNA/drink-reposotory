@@ -68,6 +68,9 @@ describe 'the orders datastore methods' do
     @order_datastore = Orders.new
     @order_datastore.save(@order_1)
     @order_datastore.save(@order_2)
+
+    @single_order_datastore = Orders.new
+    @single_order_datastore.save(@order_1)
   end
 
   context '#save' do  
@@ -121,6 +124,16 @@ describe 'the orders datastore methods' do
   context '#increment_guest_id' do 
     it 'increments the guest id by 1' do
       @order_datastore.increment_guest_id(@order_2).should == 2
+    end
+
+    it 'does not increment the id of the first guest' do 
+      @single_order_datastore.increment_guest_id(@order_1).should == 1
+    end
+  end
+
+  context '#check_for_a_single_record' do
+    it 'checks for multiple records' do  
+      @single_order_datastore.check_for_multiple_records.should == nil
     end
   end
 end
