@@ -1,6 +1,8 @@
 require 'spec_helper'
 require 'orders'
 require 'order'
+require 'drink'
+require 'guest'
 
 describe 'initializing the orderss datastore' do
   before :each do
@@ -20,20 +22,57 @@ end
 
 describe 'the orders datastore methods' do  
   before :each do
-    @datastore = Orders.new
-    params = {:booze => 'vodka',
-              :mixer => 'water',
-              :glass => 'rocks',
-              :name =>  'drink1'}
-    @order_1 = Order.new(params)
-    @datastore.save(@order_1)
-    @order_2 = Order.new(params)
-    @datastore.save(@order_2)
+    drink_1_params = {:booze => 'Rye',
+                      :mixer => 'absinthe',
+                      :glass => 'rocks',
+                      :name =>  'Sazerac'}
+    @drink_1 = Drink.new(drink_1_params)
+
+    drink_2_params = {:booze => 'Gin',
+                      :mixer => 'Campari',
+                      :glass => 'rocks',
+                      :name =>  'Negroni'}
+    @drink_2 = Drink.new(drink_2_params)
+
+    @drink_datastore = Drinks.new
+    @drink_datastore.save(@drink_1)
+    @drink_datastore.save(@drink_2)
+    
+    guest_1_params = {:first_name => 'Jane',
+                      :last_name => 'Doe'}
+    @guest_1 = Guest.new(guest_1_params)
+
+    guest_2_params = {:first_name => 'Jon',
+                      :last_name => 'Doe'}
+    @guest_2 = Guest.new(guest_2_params)
+
+
+    @guest_1_datastore = Guests.new
+    @guest_1_datastore.save(@guest_1)
+
+    @guest_2_datastore = Guests.new
+    @guest_2_datastore.save(@guest_2)
+
+
+
+    order_1_params = {:drink => @drink_datastore,
+                     :guest => @guest_1_datastore}
+
+    order_2_params = {:drink => @drink_2_datastore,
+                     :guest => @guest_2_datastore}
+
+
+    @order_1 = Order.new(order_1_params)
+    @order_2 = Order.new(order_2_params)
+
+    @order_datastore = Orders.new
+    @order_datastore.save(@order_1)
+    @order_datastore.save(@order_2)
   end
 
   context '#save' do  
     it 'saves an object in the records with the id' do
-      @datastore.records[1].should == @order_1
+      @order_datastore.records[1].should == @order_1
     end
 
     it 'sets the id on the order that it saves' do 
@@ -45,14 +84,14 @@ describe 'the orders datastore methods' do
     end
 
     it 'can save more than one drink' do
-      @datastore.records[1].should == @order_1
-      @datastore.records[2].should == @order_2
+      @order_datastore.records[1].should == @order_1
+      @order_datastore.records[2].should == @order_2
     end
   end
 
   context '#all' do 
     it 'returns all orders' do
-      @datastore.all.should == [@order_1, @order_2]
+      @order_datastore.all.should == [@order_1, @order_2]
     end
 
     it 'returns an empty array if it holds no orders' do
@@ -63,14 +102,42 @@ describe 'the orders datastore methods' do
 
   context '#find_by_id' do 
     it 'finds a record by the id' do 
-      @datastore.find_by_id(1).should == @order_1
+      @order_datastore.find_by_id(1).should == @order_1
     end
   end
 
   context '#delete_by_id' do
     it 'deletes an order' do 
-      @datastore.delete_by_id(1)
-      @datastore.all.should == [@order_2]
+      @order_datastore.delete_by_id(1)
+      @order_datastore.all.should == [@order_2]
     end
   end
+
+  context '#guest_id'
+  it 'returns an orders guest id' do 
+    @order_datastore.guest_id(@order_1).should == 1
+  end
+
+  # context '#increment_guest_id' do 
+  #   it 'increments the guest id by 1' do
+  #     @order_datastore.increment_guest_id(@order_2)
+  #     @order_datastore.records[2].guest.records.first.last.id
+
+  #   end
+
+  #   it 'does not increment the first guest id' do
+  #     require 'pry'
+  #     binding.pry
+  #     @order_datastore.increment_guest_id(@order_1)
+  #     @order_datastore.records[1].id.
+  #   end
+  # end
+
+  # context '#find_or_create_by' do 
+  #   it 'finds an order' do 
+  #     require 'pry'
+  #     binding.pry
+  #     @order_datastore.find_relationship.should == @order_1
+  #   end
+  # end
 end

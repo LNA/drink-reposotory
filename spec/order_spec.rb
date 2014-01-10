@@ -1,6 +1,7 @@
 require 'spec_helper'
 require 'order'
 
+
 describe Order do 
   before :each do
     drink_params = {:booze => 'vodka',

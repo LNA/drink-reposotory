@@ -115,8 +115,9 @@ class DrinkApp < Sinatra::Application
   put '/orders/:guest_id/:drink_id' do
     guest_id = params[:guest_id]
     drink_id = params[:drink_id]
-    # order = AR::Orders.find_or_create_by(guest_id: guest_id, drink_id: drink_id)
-    order = Repository.for(:order).find_or_create_by(guest_id: guest_id, drink_id: drink_id)
+    order = Repository.for(:order).find_or_create_by(guest_id, drink_id)
+    require 'pry'
+    binding.pry
     order.quantity += 1
     order.save
     redirect "/guest/#{guest_id}"

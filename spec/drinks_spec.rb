@@ -38,6 +38,8 @@ describe 'the drinks datastore methods' do
     end
 
     it 'sets the id on the drink that it saves' do
+      require 'pry'
+      binding.pry
       @drink_1.id.should == 1
     end
 

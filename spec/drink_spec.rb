@@ -17,6 +17,8 @@ describe Drink do
   end
 
   it 'updates the booze paramater' do
+    require 'pry'
+    binding.pry
     @drink1.update(:booze => 'rum')
     @drink1.booze.should == 'rum'
 	end
