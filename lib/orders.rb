@@ -24,17 +24,6 @@ class Orders
     @records.delete(id)
   end
 
-  def check_for_multiple_records
-    if @records.count >= 2
-      @guest_id = @guest_id + 1
-    end
-    @guest_id
-  end
-
-  def drink_id(order)
-    @drink_id = order.drink.records.first.last.id
-  end
-
   # def find_order(drink_id, guest_id)
   #   @found_order = all.map {}
   #   Take all of the orders

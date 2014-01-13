@@ -115,12 +115,6 @@ describe 'the orders datastore methods' do
     end
   end
 
-  context '#drink_id' do
-    it 'returns the drink id of an order' do 
-      @order_datastore.drink_id(@order_1).should == 1
-    end
-  end
-
   context '#find_order' do 
     it 'returns the order based on the drink_id and guest_id' do
       require 'pry'
