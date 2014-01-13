@@ -54,13 +54,16 @@ describe 'the orders datastore methods' do
 
 
     order_1_params = {:drink => @drink_datastore.records[1],
-                     :guest => @guest_datastore.records[1]}
+                     :guest => @guest_datastore.records[1],
+                     :quantity => 0}
 
     order_2_params = {:drink => @drink_datastore.records[2],
-                     :guest => @guest_datastore.records[2]}
+                     :guest => @guest_datastore.records[2],
+                     :quantity => 0}
 
     order_3_params = {:drink => @drink_datastore.records[1],
-                     :guest => @guest_datastore.records[2]}
+                     :guest => @guest_datastore.records[2],
+                     :quantity => 0}
 
 
     @order_1 = Order.new(order_1_params)
@@ -125,6 +128,8 @@ describe 'the orders datastore methods' do
 
   context '#find_order' do 
     it 'returns the order based on the drink_id and guest_id' do
+      require 'pry'
+      binding.pry
       @order_datastore.find_order(1, 1).should == @order_1
       @order_datastore.find_order(2, 2).should == @order_2
       @order_datastore.find_order(1, 2).should == @order_3

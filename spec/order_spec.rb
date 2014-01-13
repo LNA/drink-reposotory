@@ -25,7 +25,8 @@ describe Order do
     @guest2 = Guest.new(@guest2_params)
 
     params = {:guest => @guest1 ,
-              :drink => @drink1}
+              :drink => @drink1} 
+
     @order1 = Order.new(params)
   end
   
@@ -39,12 +40,12 @@ describe Order do
 
   context '#update' do 
 
-    it 'updates the guest parameters' do 
+    it 'updates the guest parameter' do 
       @order1.update(:guest => @guest2)
       @order1.guest.should == @guest2
     end
 
-    it 'updates the drink parameters' do 
+    it 'updates the drink parameter' do 
       @order1.update(:drink => @drink2)
       @order1.drink.should == @drink2
     end
