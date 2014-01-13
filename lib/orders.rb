@@ -27,4 +27,8 @@ class Orders
   def find_order(drink_id, guest_id)
     self.all.detect { |order| (order.drink.id == drink_id) && (order.guest.id == guest_id)}
   end 
+
+  def increase_quantity_by_one(order)
+    order.quantity = order.quantity + 1
+  end
 end

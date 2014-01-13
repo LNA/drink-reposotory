@@ -128,11 +128,16 @@ describe 'the orders datastore methods' do
 
   context '#find_order' do 
     it 'returns the order based on the drink_id and guest_id' do
-      require 'pry'
-      binding.pry
       @order_datastore.find_order(1, 1).should == @order_1
       @order_datastore.find_order(2, 2).should == @order_2
       @order_datastore.find_order(1, 2).should == @order_3
+    end
+  end
+
+  context '#increase_quantity_by_one' do 
+    it 'updates the quantity to 1 when the first drink is ordered' do
+      @order_datastore.increase_quantity_by_one(@order_1)
+      @order_1.quantity.should == 1
     end
   end
 end

@@ -1,5 +1,5 @@
 class Order
-  attr_accessor :guest, :drink, :id
+  attr_accessor :guest, :drink, :id, :quantity
 
   def initialize(params = {})
     @guest = params[:guest]
