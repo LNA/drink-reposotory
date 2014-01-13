@@ -34,9 +34,9 @@ describe 'the orders datastore methods' do
                       :name =>  'Negroni'}
     @drink_2 = Drink.new(drink_2_params)
 
-    @drink_1_datastore = Drinks.new
-    @drink_1_datastore.save(@drink_1)
-    @drink_1_datastore.save(@drink_2)
+    @drink_datastore = Drinks.new
+    @drink_datastore.save(@drink_1)
+    @drink_datastore.save(@drink_2)
     
     guest_1_params = {:first_name => 'Jane',
                       :last_name => 'Doe'}
@@ -47,19 +47,17 @@ describe 'the orders datastore methods' do
     @guest_2 = Guest.new(guest_2_params)
 
 
-    @guest_1_datastore = Guests.new
-    @guest_1_datastore.save(@guest_1)
-
-    @guest_2_datastore = Guests.new
-    @guest_2_datastore.save(@guest_2)
+    @guest_datastore = Guests.new
+    @guest_datastore.save(@guest_1)
+    @guest_datastore.save(@guest_2)
 
 
 
-    order_1_params = {:drink => @drink_1_datastore,
-                     :guest => @guest_1_datastore}
+    order_1_params = {:drink => @drink_datastore.records[1],
+                     :guest => @guest_datastore.records[1]}
 
-    order_2_params = {:drink => @drink_2_datastore,
-                     :guest => @guest_2_datastore}
+    order_2_params = {:drink => @drink_datastore.records[2],
+                     :guest => @guest_datastore.records[2]}
 
 
     @order_1 = Order.new(order_1_params)
@@ -116,12 +114,6 @@ describe 'the orders datastore methods' do
       @order_datastore.all.should == [@order_2]
     end
   end
-
-  context '#guest_id'
-  it 'returns an orders guest id' do 
-    @order_datastore.guest_id(@order_1).should == 1
-  end
-
 
   context '#drink_id' do
     it 'returns the drink id of an order' do 

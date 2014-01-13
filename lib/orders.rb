@@ -24,10 +24,6 @@ class Orders
     @records.delete(id)
   end
 
-  def guest_id(order)
-    @guest_id = order.guest.records.first.last.id
-  end
-
   def check_for_multiple_records
     if @records.count >= 2
       @guest_id = @guest_id + 1
