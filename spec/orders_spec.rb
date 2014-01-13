@@ -34,9 +34,9 @@ describe 'the orders datastore methods' do
                       :name =>  'Negroni'}
     @drink_2 = Drink.new(drink_2_params)
 
-    @drink_datastore = Drinks.new
-    @drink_datastore.save(@drink_1)
-    @drink_datastore.save(@drink_2)
+    @drink_1_datastore = Drinks.new
+    @drink_1_datastore.save(@drink_1)
+    @drink_1_datastore.save(@drink_2)
     
     guest_1_params = {:first_name => 'Jane',
                       :last_name => 'Doe'}
@@ -55,7 +55,7 @@ describe 'the orders datastore methods' do
 
 
 
-    order_1_params = {:drink => @drink_datastore,
+    order_1_params = {:drink => @drink_1_datastore,
                      :guest => @guest_1_datastore}
 
     order_2_params = {:drink => @drink_2_datastore,
@@ -75,18 +75,19 @@ describe 'the orders datastore methods' do
 
   context '#save' do  
     it 'saves an object in the records with the id' do
-      @order_datastore.records[1].should == @order_1
+      expected_record_id = 1
+      @order_datastore.records[expected_record_id].should == @order_1
     end
 
     it 'sets the id on the order that it saves' do 
       @order_1.id.should == 1
     end
 
-    it 'increments the id by 1 after saving a drink' do
+    it 'increments the id by 1 after saving an order' do
       @order_2.id.should == 2
     end
 
-    it 'can save more than one drink' do
+    it 'can save more than one order' do
       @order_datastore.records[1].should == @order_1
       @order_datastore.records[2].should == @order_2
     end
@@ -121,19 +122,18 @@ describe 'the orders datastore methods' do
     @order_datastore.guest_id(@order_1).should == 1
   end
 
-  context '#increment_guest_id' do 
-    it 'increments the guest id by 1' do
-      @order_datastore.increment_guest_id(@order_2).should == 2
-    end
 
-    it 'does not increment the id of the first guest' do 
-      @single_order_datastore.increment_guest_id(@order_1).should == 1
+  context '#drink_id' do
+    it 'returns the drink id of an order' do 
+      @order_datastore.drink_id(@order_1).should == 1
     end
   end
 
-  context '#check_for_a_single_record' do
-    it 'checks for multiple records' do  
-      @single_order_datastore.check_for_multiple_records.should == nil
+  context '#find_order' do 
+    it 'returns the order based on the drink_id and guest_id' do
+      require 'pry'
+      binding.pry
+      @order_datastore.find_order(1, 2).should == @order_1
     end
   end
 end

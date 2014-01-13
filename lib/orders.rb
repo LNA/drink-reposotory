@@ -1,8 +1,6 @@
 class Orders
-  attr_accessor :records, :id, :orders, :drink_id,
-                :drinks, :guest, :guest_id,
-                :increment_guest_id, 
-                :check_for_multiple_records
+  attr_accessor :records, :id
+
   def initialize
     @records = {}
     @id = 1
@@ -30,15 +28,23 @@ class Orders
     @guest_id = order.guest.records.first.last.id
   end
 
-  def increment_guest_id(order)
-    @guest_id = guest_id(order)
-    check_for_multiple_records
-    @guest_id
-  end
-
   def check_for_multiple_records
     if @records.count >= 2
       @guest_id = @guest_id + 1
     end
+    @guest_id
   end
+
+  def drink_id(order)
+    @drink_id = order.drink.records.first.last.id
+  end
+
+  # def find_order(drink_id, guest_id)
+  #   @found_order = all.map {}
+  #   Take all of the orders
+  #   find the guest_id and the drink_id. 
+  #   Return the records id associated with it.
+
+  # end
+  
 end

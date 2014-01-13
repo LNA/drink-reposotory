@@ -86,6 +86,9 @@ class DrinkApp < Sinatra::Application
 
   get '/guest/:id' do
     find_guest_by_id
+    # require 'pry'
+    # binding.pry
+    drink_datastore_instance = Repository.for(:drink) 
     @drinks = drink_datastore_instance.all
     erb '/guests/show'.to_sym
   end
@@ -93,7 +96,7 @@ class DrinkApp < Sinatra::Application
   put '/guest/:id' do
     find_guest_by_id
     @guest.update(params)
-    redirect "/guest/#{id}"
+    redirect "/guest/#{@guest.id}"
   end
 
   get '/guest/:id/edit' do
@@ -115,9 +118,7 @@ class DrinkApp < Sinatra::Application
   put '/orders/:guest_id/:drink_id' do
     guest_id = params[:guest_id]
     drink_id = params[:drink_id]
-    order = Repository.for(:order).find_or_create_by(guest_id, drink_id)
-    require 'pry'
-    binding.pry
+    order = Repository.for(:order).find_order(guest_id, drink_id)
     order.quantity += 1
     order.save
     redirect "/guest/#{guest_id}"
