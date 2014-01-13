@@ -24,12 +24,13 @@ class Orders
     @records.delete(id)
   end
 
-  # def find_order(drink_id, guest_id)
-  #   @found_order = all.map {}
-  #   Take all of the orders
-  #   find the guest_id and the drink_id. 
-  #   Return the records id associated with it.
+  def find_order(drink_id, guest_id)
+    self.all.each do |order|
+      if (order.drink.id == drink_id) && (order.guest.id == guest_id)
+        return order
+      end
+    end
 
-  # end
+  end
   
 end

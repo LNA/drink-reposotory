@@ -118,7 +118,7 @@ class DrinkApp < Sinatra::Application
   put '/orders/:guest_id/:drink_id' do
     guest_id = params[:guest_id]
     drink_id = params[:drink_id]
-    order = Repository.for(:order).find_order(guest_id, drink_id)
+    order = Repository.for(:order).find_order(drink_id, guest_id)
     order.quantity += 1
     order.save
     redirect "/guest/#{guest_id}"

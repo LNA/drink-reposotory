@@ -59,13 +59,21 @@ describe 'the orders datastore methods' do
     order_2_params = {:drink => @drink_datastore.records[2],
                      :guest => @guest_datastore.records[2]}
 
+    order_3_params = {:drink => @drink_datastore.records[1],
+                     :guest => @guest_datastore.records[2]}
+
 
     @order_1 = Order.new(order_1_params)
     @order_2 = Order.new(order_2_params)
+    @order_3 = Order.new(order_3_params)
+
+
 
     @order_datastore = Orders.new
     @order_datastore.save(@order_1)
     @order_datastore.save(@order_2)
+    @order_datastore.save(@order_3)
+
 
     @single_order_datastore = Orders.new
     @single_order_datastore.save(@order_1)
@@ -93,7 +101,7 @@ describe 'the orders datastore methods' do
 
   context '#all' do 
     it 'returns all orders' do
-      @order_datastore.all.should == [@order_1, @order_2]
+      @order_datastore.all.should == [@order_1, @order_2, @order_3]
     end
 
     it 'returns an empty array if it holds no orders' do
@@ -111,15 +119,17 @@ describe 'the orders datastore methods' do
   context '#delete_by_id' do
     it 'deletes an order' do 
       @order_datastore.delete_by_id(1)
-      @order_datastore.all.should == [@order_2]
+      @order_datastore.all.should == [@order_2, @order_3]
     end
   end
 
   context '#find_order' do 
     it 'returns the order based on the drink_id and guest_id' do
-      require 'pry'
-      binding.pry
-      @order_datastore.find_order(1, 2).should == @order_1
+      # require 'pry'
+      # binding.pry
+      @order_datastore.find_order(1, 1).should == @order_1
+      @order_datastore.find_order(2, 2).should == @order_2
+      @order_datastore.find_order(1, 2).should == @order_3
     end
   end
 end
