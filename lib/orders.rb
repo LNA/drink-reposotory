@@ -29,6 +29,10 @@ class Orders
   end 
 
   def increase_quantity_by_one(order)
-    order.quantity = order.quantity + 1
+    order.quantity += 1
+  end
+
+  def decrease_quantity_by_one(order)
+    order.quantity -= 1
   end
 end

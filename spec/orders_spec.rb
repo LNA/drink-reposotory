@@ -140,4 +140,12 @@ describe 'the orders datastore methods' do
       @order_1.quantity.should == 1
     end
   end
+
+  context '#decrease_quantity_by_one' do 
+    it 'decreases the quantity by 1' do
+      @order_datastore.increase_quantity_by_one(@order_1)
+      @order_datastore.decrease_quantity_by_one(@order_1)
+      @order_1.quantity.should == 0
+    end
+  end
 end
