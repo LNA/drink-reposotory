@@ -125,8 +125,6 @@ describe 'the orders datastore methods' do
 
   context '#find_order' do 
     it 'returns the order based on the drink_id and guest_id' do
-      # require 'pry'
-      # binding.pry
       @order_datastore.find_order(1, 1).should == @order_1
       @order_datastore.find_order(2, 2).should == @order_2
       @order_datastore.find_order(1, 2).should == @order_3

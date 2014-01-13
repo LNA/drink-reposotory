@@ -25,12 +25,6 @@ class Orders
   end
 
   def find_order(drink_id, guest_id)
-    self.all.each do |order|
-      if (order.drink.id == drink_id) && (order.guest.id == guest_id)
-        return order
-      end
-    end
-
-  end
-  
+    self.all.detect { |order| (order.drink.id == drink_id) && (order.guest.id == guest_id)}
+  end 
 end
