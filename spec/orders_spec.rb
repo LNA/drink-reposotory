@@ -136,16 +136,27 @@ describe 'the orders datastore methods' do
 
   context '#increase_quantity_by_one' do 
     it 'updates the quantity to 1 when the first drink is ordered' do
-      @order_datastore.increase_quantity_by_one(@order_1)
-      @order_1.quantity.should == 1
+      require 'pry'
+      binding.pry
+      order_id = @order_datastore.find_order(1, 1).id
+      increase_quantity_by_one(order_id)
+      @order_datastore.find_by_id(1).quantity.should == 1
     end
   end
 
   context '#decrease_quantity_by_one' do 
     it 'decreases the quantity by 1' do
-      @order_datastore.increase_quantity_by_one(@order_1)
-      @order_datastore.decrease_quantity_by_one(@order_1)
-      @order_1.quantity.should == 0
+      @order_datastore.find_order(1, 1).increase_quantity_by_one
+      @order_datastore.decrease_quantity_by_one(1)
+      @order_datastore.find_by_id(1).quantity.should == 0
+    end
+  end
+
+  context '#count_guest_orders' do 
+    it 'returns the number of drinks ordered by a guest' do
+      # require 'pry'
+      # binding.pry
+      @order_datastore.count_guest_orders(2).should == 2
     end
   end
 end

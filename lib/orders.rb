@@ -25,14 +25,19 @@ class Orders
   end
 
   def find_order(drink_id, guest_id)
-    self.all.detect { |order| (order.drink.id == drink_id) && (order.guest.id == guest_id)}
+    self.all.detect { |order| (order.drink_id == drink_id) && (order.guest_id == guest_id)}
   end 
 
-  def increase_quantity_by_one(order)
-    order.quantity += 1
+  def increase_quantity_by_one(order_id)
+    @records[order_id].quantity += 1
   end
 
-  def decrease_quantity_by_one(order)
-    order.quantity -= 1
+  def decrease_quantity_by_one(order_id)
+    @records[order_id].quantity -= 1
+  end
+
+  def count_guest_orders(guest_id)
+    orders = self.all.find_all { |order| order.guest.id == guest_id }
+    orders.count
   end
 end

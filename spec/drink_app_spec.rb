@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'mock_datastore'
+require 'order'
 
 describe DrinkApp do
   def app
@@ -185,6 +186,12 @@ describe DrinkApp do
     end
 
     context 'orders' do 
+
+      guest_params = {:first_name => 'Jay',
+               :last_name => 'Crew'}
+      guest = Guest.new(guest_params)
+
+      Repository.for(:guest).save(guest)
       params =  { :booze => 'vodka',
                   :mixer => 'water',
                   :glass => 'rocks',
@@ -192,9 +199,42 @@ describe DrinkApp do
       drink = Drink.new(params)
       Repository.for(:drink).save(drink)
 
-      it 'creates an order for a guest' do
+      # order_params = {:drink => drink,
+      #                 :guest => guest,
+      #                 :quantity => 0}
+
+
+      # order = Order.new(order_params)
+      # orders = Orders.new
+      # orders.save(order)
+
+      # Repository.for(:order).save(order)
+
+      # it 'creates an order for a guest' do
+      #   put "orders/#{@guest.id}/#{drink.id}"
+      #   require 'pry'
+      #   binding.pry
+      #   guest_id = 1
+      #   order_datastore.count_guest_orders(guest_id).should == 1
+      # end
+
+      it 'creates an order' do
+        Repository.for(:order).records = {}
         put "orders/#{@guest.id}/#{drink.id}"
-        @guest.orders.count.should == 1
+
+        Repository.for(:order).records.first.last.drink_id == 1
+      end
+
+      it 'updates the quantity as 1 the first time a drink is ordered' do
+        put "orders/#{@guest.id}/#{drink.id}"
+        Repository.for(:order).find_order(drink.id, @guest.id).quantity.should == 1
+      end
+
+      it 'updates the quantity by 1 the second time a drink is ordered' do
+        put "orders/#{@guest.id}/#{drink.id}"
+        put "orders/#{@guest.id}/#{drink.id}"
+
+        Repository.for(:order).find_order(drink.id, @guest.id).quantity.should == 2
       end
     end
   end
