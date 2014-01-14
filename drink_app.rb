@@ -115,24 +115,26 @@ class DrinkApp < Sinatra::Application
     erb 'guests/delete'.to_sym
   end
 
-
   put '/orders/:guest_id/:drink_id' do
     guest_id = params[:guest_id]
     drink_id = params[:drink_id]
 
     @order = Order.new(params)
-
-    check_and_increase_quantity
+    @order.quantity += 1
 
     Repository.for(:order).save(@order) 
+
     redirect "/guest/#{guest_id}"
   end
 
   delete '/orders/:guest_id/:drink_id' do
     guest_id = params[:guest_id]
     drink_id = params[:drink_id]
-    @order = AR::Orders.find_by(guest_id: guest_id, drink_id: drink_id)
-    check_quantity
+
+    @order = Repository.for(:order).find_order(drink_id, guest_id)
+
+    check_and_decrease_quantity
+
     redirect "/guest/#{guest_id}"
   end
 
@@ -154,12 +156,11 @@ class DrinkApp < Sinatra::Application
     end
   end
 
-  # def check_and_decrease_quantity
-  #   if @order.quantity == 1
-  #     @order.destroy
-  #   else
-  #     @order.quantity -= 1
-  #     @order.save
-  #   end
-  # end
+  def check_and_decrease_quantity
+    if @order.quantity == 1
+      delete_order(drink_id, guest_id)
+    else
+      @order.quantity -= 1
+    end
+  end
 end
