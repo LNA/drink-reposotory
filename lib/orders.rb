@@ -57,5 +57,4 @@ class Orders
       delete_by_id(@id)
     end
   end
-
 end
