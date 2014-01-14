@@ -13,7 +13,7 @@ class Drinks
   end
 
   def all
-  	@records.values
+    @records.values
   end
 
   def find_by_id(id)
@@ -21,6 +21,6 @@ class Drinks
   end
 
   def delete_by_id(id)
-     @records.delete(id)
+    @records.delete(id)
    end
 end
