@@ -118,8 +118,11 @@ class DrinkApp < Sinatra::Application
   put '/orders/:guest_id/:drink_id' do
     guest_id = params[:guest_id]
     drink_id = params[:drink_id]
-    
+
     @order = Order.new(params)
+
+    check_and_increase_quantity
+
 
     Repository.for(:order).save(@order) 
     redirect "/guest/#{guest_id}"
@@ -135,5 +138,11 @@ class DrinkApp < Sinatra::Application
   def find_guest_by_id
     id = params[:id].to_i
     @guest = Repository.for(:guest).find_by_id(id)
+  end
+
+  def check_and_increase_quantity
+    if @order.quantity >= 1
+      @order.quantity += 1
+    end
   end
 end
