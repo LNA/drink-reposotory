@@ -35,7 +35,13 @@ class Orders
   end
 
   def decrease_quantity_by_one(drink_id, guest_id)
-    order = find_order(drink_id, guest_id)
-    order.quantity -= 1
+    @order = find_order(drink_id, guest_id)
+    check_quantity
+  end
+
+  def check_quantity
+    if @order.quantity > 0
+      @order.quantity -= 1
+    end
   end
 end

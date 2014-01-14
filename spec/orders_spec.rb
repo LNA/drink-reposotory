@@ -154,11 +154,11 @@ describe 'the orders datastore methods' do
       @order_datastore.records[1].quantity.should == 0
     end
 
-    # it 'does not decreases the quantity if quantity is zero' do
-    #   @order_datastore.decrease_quantity_by_one(1,1)
-    #   @order_datastore.decrease_quantity_by_one(1,1)
-    #   @order_datastore.records[1].quantity.should == 0
-    # end
+    it 'does not decreases the quantity if quantity is zero' do
+      @order_datastore.decrease_quantity_by_one(1,1)
+      @order_datastore.decrease_quantity_by_one(1,1)
+      @order_datastore.records[1].quantity.should == 0
+    end
 
     it 'when voiding an order of 1 it deletes the order record' do
     end
