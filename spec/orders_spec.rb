@@ -107,22 +107,6 @@ describe 'the orders datastore methods' do
     end
   end
 
-  # context '#increase_quantity_by_one' do 
-  #   it 'updates the quantity to 1 when the first drink is ordered' do  
-  #     @order_datastore.increase_quantity_by_one(1,1)
-  #     @order_datastore.find_by_id(1).quantity.should == 1
-  #   end
-  # end
-
-  # context '#decrease_quantity_by_one' do 
-  #   it 'decreases the quantity by 1' do
-  #     @order_datastore.increase_quantity_by_one(1,1)
-  #     @order_datastore.decrease_quantity_by_one(1,1)
-  #     @order_datastore.find_by_id(1).quantity.should == 0
-  #   end
-  # end
-
-
   context 'saving an order' do
     it 'saves an order with a new drink_id' do
       @order_datastore.records[1].drink_id.should == 1
@@ -154,7 +138,7 @@ describe 'the orders datastore methods' do
       @order_datastore.records[1].quantity.should == 0
     end
 
-    it 'does not decreases the quantity if quantity is zero' do
+    it 'does not decrease the quantity if quantity is zero' do
       @order_datastore.decrease_quantity_by_one(1,1)
       @order_datastore.decrease_quantity_by_one(1,1)
       @order_datastore.records[1].quantity.should == 0
