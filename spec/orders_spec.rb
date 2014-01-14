@@ -122,7 +122,7 @@ describe 'the orders datastore methods' do
   end
 
   context 'updating an existing order' do
-    it 'when reordering an existing order it finds the existing one and increments quantity by 1' do
+    it 'when reordering an existing order it increments quantity by 1' do
       @order_datastore.increase_quantity_by_one(1,1)
       @order_datastore.records[1].quantity.should == 2
 
