@@ -118,12 +118,12 @@ class DrinkApp < Sinatra::Application
   put '/orders/:guest_id/:drink_id' do
     guest_id = params[:guest_id]
     drink_id = params[:drink_id]
+    require 'pry'
+    binding.pry
 
     @order = Order.new(params)
+    #Find the order order
     Repository.for(:order).save(@order) 
-
-    Repository.for(:order).increase_quantity_by_one(drink_id, guest_id)
-
     redirect "/guest/#{guest_id}"
   end
 

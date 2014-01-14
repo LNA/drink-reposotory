@@ -53,9 +53,6 @@ describe 'the orders datastore methods' do
     @order_datastore.save(@order_1)
     @order_datastore.save(@order_2)
     @order_datastore.save(@order_3)
-
-    @single_order_datastore = Orders.new
-    @single_order_datastore.save(@order_1)
   end
 
   context '#save' do  
@@ -110,18 +107,60 @@ describe 'the orders datastore methods' do
     end
   end
 
-  context '#increase_quantity_by_one' do 
-    it 'updates the quantity to 1 when the first drink is ordered' do  
-      @order_datastore.increase_quantity_by_one(1,1)
-      @order_datastore.find_by_id(1).quantity.should == 1
+  # context '#increase_quantity_by_one' do 
+  #   it 'updates the quantity to 1 when the first drink is ordered' do  
+  #     @order_datastore.increase_quantity_by_one(1,1)
+  #     @order_datastore.find_by_id(1).quantity.should == 1
+  #   end
+  # end
+
+  # context '#decrease_quantity_by_one' do 
+  #   it 'decreases the quantity by 1' do
+  #     @order_datastore.increase_quantity_by_one(1,1)
+  #     @order_datastore.decrease_quantity_by_one(1,1)
+  #     @order_datastore.find_by_id(1).quantity.should == 0
+  #   end
+  # end
+
+
+  context 'saving an order' do
+    it 'saves an order with a new drink_id' do
+      @order_datastore.records[1].drink_id.should == 1
+    end
+
+    it 'saves an order with a new guest_id' do
+      @order_datastore.records[1].guest_id.should == 1
+    end
+
+    it 'saves an order with a quantity of 1' do
+      @order_datastore.records[1].quantity.should == 1
     end
   end
 
-  context '#decrease_quantity_by_one' do 
-    it 'decreases the quantity by 1' do
+  context 'updating an existing order' do
+    it 'when reordering an existing order it finds the existing one and increments quantity by 1' do
       @order_datastore.increase_quantity_by_one(1,1)
+      @order_datastore.records[1].quantity.should == 2
+
+      @order_datastore.increase_quantity_by_one(2,2)
+      @order_datastore.records[1].quantity.should == 2
+
+      @order_datastore.increase_quantity_by_one(1,2)
+      @order_datastore.records[1].quantity.should == 2
+    end
+
+    it 'decreases quantity by 1' do
       @order_datastore.decrease_quantity_by_one(1,1)
-      @order_datastore.find_by_id(1).quantity.should == 0
+      @order_datastore.records[1].quantity.should == 0
+    end
+
+    # it 'does not decreases the quantity if quantity is zero' do
+    #   @order_datastore.decrease_quantity_by_one(1,1)
+    #   @order_datastore.decrease_quantity_by_one(1,1)
+    #   @order_datastore.records[1].quantity.should == 0
+    # end
+
+    it 'when voiding an order of 1 it deletes the order record' do
     end
   end
 end

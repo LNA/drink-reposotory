@@ -10,6 +10,7 @@ class Orders
     @records[@id] = order 
     order.id = @id
     @id += 1
+    order.quantity += 1
   end
 
   def all
