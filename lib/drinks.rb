@@ -17,7 +17,7 @@ class Drinks
   end
 
   def find_by_id(id)
-  	@records[id]
+    @records[id]
   end
 
   def delete_by_id(id)
