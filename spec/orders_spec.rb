@@ -123,14 +123,17 @@ describe 'the orders datastore methods' do
 
   context 'updating an existing order' do
     it 'when reordering an existing order it finds the existing one and increments quantity by 1' do
+      # require 'pry'
+      # binding.pry
+
       @order_datastore.increase_quantity_by_one(1,1)
       @order_datastore.records[1].quantity.should == 2
 
       @order_datastore.increase_quantity_by_one(2,2)
-      @order_datastore.records[1].quantity.should == 2
+      @order_datastore.records[2].quantity.should == 2
 
       @order_datastore.increase_quantity_by_one(1,2)
-      @order_datastore.records[1].quantity.should == 2
+      @order_datastore.records[3].quantity.should == 2
     end
 
     it 'decreases quantity by 1' do
