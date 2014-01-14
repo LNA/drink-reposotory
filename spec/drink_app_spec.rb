@@ -170,8 +170,6 @@ describe DrinkApp do
       it 'creates an order' do
         Repository.for(:order).records = {}
         put "orders/#{@guest.id}/#{@drink.id}"
-
-
         Repository.for(:order).find_order(@drink.id, @guest.id).quantity.should == 1
       end
 
@@ -183,11 +181,13 @@ describe DrinkApp do
       it 'updates the quantity by 1 the second time a drink is ordered' do
         put "orders/#{@guest.id}/#{@drink.id}"
         put "orders/#{@guest.id}/#{@drink.id}"
-
-
-
         Repository.for(:order).find_order(@drink.id, @guest.id).quantity.should == 2
       end
+
+      # it 'deletes a guests drink if quantity was 1' do
+      #   delete "/orders/#{@guest.id}/#{drink.id}"
+      #   Repository.for(:order).find_order(@drink.id, @guest.id).quantity.should == nil
+      # end
     end
   end
 end

@@ -11,6 +11,7 @@ require 'guest'
 require 'guests'
 require 'orders'
 require 'order'
+require 'mock_datastore'
 
 set :database, 'sqlite3:///drinks.db'
 
@@ -123,8 +124,15 @@ class DrinkApp < Sinatra::Application
 
     check_and_increase_quantity
 
-
     Repository.for(:order).save(@order) 
+    redirect "/guest/#{guest_id}"
+  end
+
+  delete '/orders/:guest_id/:drink_id' do
+    guest_id = params[:guest_id]
+    drink_id = params[:drink_id]
+    @order = AR::Orders.find_by(guest_id: guest_id, drink_id: drink_id)
+    check_quantity
     redirect "/guest/#{guest_id}"
   end
 
@@ -145,4 +153,13 @@ class DrinkApp < Sinatra::Application
       @order.quantity += 1
     end
   end
+
+  # def check_and_decrease_quantity
+  #   if @order.quantity == 1
+  #     @order.destroy
+  #   else
+  #     @order.quantity -= 1
+  #     @order.save
+  #   end
+  # end
 end
