@@ -1,5 +1,5 @@
 class Orders
-  attr_accessor :records, :id
+  attr_accessor :id, :order, :quantity, :records
 
   def initialize
     @records = {}
@@ -28,16 +28,13 @@ class Orders
     self.all.detect { |order| (order.drink_id == drink_id) && (order.guest_id == guest_id)}
   end 
 
-  def increase_quantity_by_one(order_id)
-    @records[order_id].quantity += 1
+  def increase_quantity_by_one(drink_id, guest_id)
+    order = find_order(drink_id, guest_id)
+    order.quantity += 1
   end
 
-  def decrease_quantity_by_one(order_id)
-    @records[order_id].quantity -= 1
-  end
-
-  def count_guest_orders(guest_id)
-    orders = self.all.find_all { |order| order.guest.id == guest_id }
-    orders.count
+  def decrease_quantity_by_one(drink_id, guest_id)
+    order = find_order(drink_id, guest_id)
+    order.quantity -= 1
   end
 end

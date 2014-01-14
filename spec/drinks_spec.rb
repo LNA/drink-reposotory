@@ -1,6 +1,4 @@
 require 'spec_helper'
-require 'drinks'
-require 'drink'
 
 describe 'initializing the drinks datastore' do
   before :each do
@@ -21,14 +19,11 @@ end
 describe 'the drinks datastore methods' do
   before :each do
     @datastore = Drinks.new
-    params = {:booze => 'vodka',
-              :mixer => 'water',
-              :glass => 'rocks',
-              :name =>  'drink1'}
-    @drink_1 = Drink.new(params)
+    
+    @drink_1 = Drink.new
     @datastore.save(@drink_1)
 
-    @drink_2 = Drink.new(params)
+    @drink_2 = Drink.new
     @datastore.save(@drink_2)
   end
 
@@ -38,8 +33,6 @@ describe 'the drinks datastore methods' do
     end
 
     it 'sets the id on the drink that it saves' do
-      require 'pry'
-      binding.pry
       @drink_1.id.should == 1
     end
 

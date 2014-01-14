@@ -1,8 +1,14 @@
 require 'spec_helper'
-require 'mock_datastore'
-require 'order'
 
 describe DrinkApp do
+  before :each do
+    @drink = Drink.new
+    Repository.for(:drink).save(@drink)
+
+    @guest = Guest.new
+    Repository.for(:guest).save(@guest)
+  end
+
   def app
     @app ||= DrinkApp
   end
@@ -15,14 +21,6 @@ describe DrinkApp do
   end
 
   describe 'Drinks pages' do
-    before :each do
-      @params = {:booze => 'vodka',
-               :mixer => 'water',
-               :glass => 'rocks',
-               :name =>  'drink1'}
-      @drink = Drink.new(@params)
-    end
-
     it 'displays the form for creating new drinks' do
       get '/drinks/new'
       last_response.should be_ok
@@ -47,15 +45,6 @@ describe DrinkApp do
   end
 
   describe 'Pages for a single drink' do
-    before :each do
-      params = {:booze => 'vodka',
-               :mixer => 'water',
-               :glass => 'rocks',
-               :name =>  'drink1'}
-      @drink = Drink.new(params)
-      Repository.for(:drink).save(@drink)
-    end
-
     it 'returns the drink id' do
       Repository.for(:drink).save(@drink)
       get '/drink/1'
@@ -104,7 +93,7 @@ describe DrinkApp do
     before :each do
       @params = {:first_name => 'Jay',
                :last_name => 'Crew'}
-      @guest= Guest.new(@params)
+      @guest = Guest.new(@params)
     end
 
     it 'displays the new guest page' do
@@ -135,15 +124,7 @@ describe DrinkApp do
     end
   end
 
-  describe 'Pages for a single guest' do
-
-    before :each do
-      params = {:first_name => 'Jay',
-               :last_name => 'Crew'}
-      @guest= Guest.new(params)
-      Repository.for(:guest).save(@guest)
-    end
-
+  describe 'Pages for a single guest' do 
     it 'returns the guest id' do
       Repository.should_receive(:for).and_return(:id)
       post '/guests'
@@ -186,55 +167,25 @@ describe DrinkApp do
     end
 
     context 'orders' do 
-
-      guest_params = {:first_name => 'Jay',
-               :last_name => 'Crew'}
-      guest = Guest.new(guest_params)
-
-      Repository.for(:guest).save(guest)
-      params =  { :booze => 'vodka',
-                  :mixer => 'water',
-                  :glass => 'rocks',
-                  :name =>  'drink1'} 
-      drink = Drink.new(params)
-      Repository.for(:drink).save(drink)
-
-      # order_params = {:drink => drink,
-      #                 :guest => guest,
-      #                 :quantity => 0}
-
-
-      # order = Order.new(order_params)
-      # orders = Orders.new
-      # orders.save(order)
-
-      # Repository.for(:order).save(order)
-
-      # it 'creates an order for a guest' do
-      #   put "orders/#{@guest.id}/#{drink.id}"
-      #   require 'pry'
-      #   binding.pry
-      #   guest_id = 1
-      #   order_datastore.count_guest_orders(guest_id).should == 1
-      # end
-
       it 'creates an order' do
         Repository.for(:order).records = {}
-        put "orders/#{@guest.id}/#{drink.id}"
+        put "orders/#{@guest.id}/#{@drink.id}"
+        # require 'pry'
+        # binding.pry
 
-        Repository.for(:order).records.first.last.drink_id == 1
+        Repository.for(:order).find_order(@drink.id, @guest.id).quantity.should == 1
       end
 
       it 'updates the quantity as 1 the first time a drink is ordered' do
-        put "orders/#{@guest.id}/#{drink.id}"
-        Repository.for(:order).find_order(drink.id, @guest.id).quantity.should == 1
+        put "orders/#{@guest.id}/#{@drink.id}"
+        Repository.for(:order).find_order(@drink.id, @guest.id).quantity.should == 1
       end
 
       it 'updates the quantity by 1 the second time a drink is ordered' do
-        put "orders/#{@guest.id}/#{drink.id}"
-        put "orders/#{@guest.id}/#{drink.id}"
+        put "orders/#{@guest.id}/#{@drink.id}"
+        put "orders/#{@guest.id}/#{@drink.id}"
 
-        Repository.for(:order).find_order(drink.id, @guest.id).quantity.should == 2
+        Repository.for(:order).find_order(@drink.id, @guest.id).quantity.should == 2
       end
     end
   end

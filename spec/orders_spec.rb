@@ -1,10 +1,6 @@
 require 'spec_helper'
-require 'orders'
-require 'order'
-require 'drink'
-require 'guest'
 
-describe 'initializing the orderss datastore' do
+describe 'initializing the orders datastore' do
   before :each do
     @datastore = Orders.new
   end
@@ -22,61 +18,41 @@ end
 
 describe 'the orders datastore methods' do  
   before :each do
-    drink_1_params = {:booze => 'Rye',
-                      :mixer => 'absinthe',
-                      :glass => 'rocks',
-                      :name =>  'Sazerac'}
-    @drink_1 = Drink.new(drink_1_params)
-
-    drink_2_params = {:booze => 'Gin',
-                      :mixer => 'Campari',
-                      :glass => 'rocks',
-                      :name =>  'Negroni'}
-    @drink_2 = Drink.new(drink_2_params)
-
+    @drink_1 = Drink.new
+    @drink_2 = Drink.new
     @drink_datastore = Drinks.new
     @drink_datastore.save(@drink_1)
     @drink_datastore.save(@drink_2)
     
-    guest_1_params = {:first_name => 'Jane',
-                      :last_name => 'Doe'}
-    @guest_1 = Guest.new(guest_1_params)
-
-    guest_2_params = {:first_name => 'Jon',
-                      :last_name => 'Doe'}
-    @guest_2 = Guest.new(guest_2_params)
-
-
+    @guest_1 = Guest.new
+    @guest_2 = Guest.new
     @guest_datastore = Guests.new
     @guest_datastore.save(@guest_1)
     @guest_datastore.save(@guest_2)
 
 
 
-    order_1_params = {:drink => @drink_datastore.records[1],
-                     :guest => @guest_datastore.records[1],
-                     :quantity => 0}
+    order_1_params = {:drink_id => @drink_1.id,
+                      :guest_id => @guest_1.id,
+                      :quantity => 0}
 
-    order_2_params = {:drink => @drink_datastore.records[2],
-                     :guest => @guest_datastore.records[2],
-                     :quantity => 0}
+    order_2_params = {:drink_id => @drink_2.id,
+                      :guest_id => @guest_2.id,
+                      :quantity => 0}
 
-    order_3_params = {:drink => @drink_datastore.records[1],
-                     :guest => @guest_datastore.records[2],
-                     :quantity => 0}
+    order_3_params = {:drink_id => @drink_1.id,
+                      :guest_id => @guest_2.id,
+                      :quantity => 0}
 
 
     @order_1 = Order.new(order_1_params)
     @order_2 = Order.new(order_2_params)
     @order_3 = Order.new(order_3_params)
 
-
-
     @order_datastore = Orders.new
     @order_datastore.save(@order_1)
     @order_datastore.save(@order_2)
     @order_datastore.save(@order_3)
-
 
     @single_order_datastore = Orders.new
     @single_order_datastore.save(@order_1)
@@ -135,28 +111,17 @@ describe 'the orders datastore methods' do
   end
 
   context '#increase_quantity_by_one' do 
-    it 'updates the quantity to 1 when the first drink is ordered' do
-      require 'pry'
-      binding.pry
-      order_id = @order_datastore.find_order(1, 1).id
-      increase_quantity_by_one(order_id)
+    it 'updates the quantity to 1 when the first drink is ordered' do  
+      @order_datastore.increase_quantity_by_one(1,1)
       @order_datastore.find_by_id(1).quantity.should == 1
     end
   end
 
   context '#decrease_quantity_by_one' do 
     it 'decreases the quantity by 1' do
-      @order_datastore.find_order(1, 1).increase_quantity_by_one
-      @order_datastore.decrease_quantity_by_one(1)
+      @order_datastore.increase_quantity_by_one(1,1)
+      @order_datastore.decrease_quantity_by_one(1,1)
       @order_datastore.find_by_id(1).quantity.should == 0
-    end
-  end
-
-  context '#count_guest_orders' do 
-    it 'returns the number of drinks ordered by a guest' do
-      # require 'pry'
-      # binding.pry
-      @order_datastore.count_guest_orders(2).should == 2
     end
   end
 end

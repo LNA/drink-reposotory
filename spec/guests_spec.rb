@@ -1,6 +1,4 @@
 require 'spec_helper'
-require 'guests'
-require 'guest'
 
 describe 'initializing the guests datastore' do 
   before :each do
@@ -22,16 +20,11 @@ describe 'the datastore methods' do
 
   before :each do
     @datastore = Guests.new
-    params = {:first_name => 'bob',
-              :last_name => 'jones'
-             }
-    @guest1 = Guest.new(params)
+
+    @guest1 = Guest.new
     @datastore.save(@guest1)
-    params2 = {:first_name => 'Peanut',
-              :last_name => 'Butter',
-              :drink => 'drink1'
-             }
-    @guest2 = Guest.new(params2)
+    
+    @guest2 = Guest.new
     @datastore.save(@guest2)
   end
 

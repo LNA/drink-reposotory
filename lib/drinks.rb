@@ -1,5 +1,5 @@
 class Drinks 
-  attr_accessor :records, :id, :drink
+  attr_accessor :id, :drink, :records
   
   def initialize
     @records = {}

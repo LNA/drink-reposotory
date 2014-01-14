@@ -10,6 +10,7 @@ require './seed'
 require 'guest'
 require 'guests'
 require 'orders'
+require 'order'
 
 set :database, 'sqlite3:///drinks.db'
 
@@ -120,7 +121,9 @@ class DrinkApp < Sinatra::Application
 
     @order = Order.new(params)
     Repository.for(:order).save(@order) 
-    Repository.for(:order).find_order(drink_id, guest_id).increase_quantity_by_one
+
+    Repository.for(:order).increase_quantity_by_one(drink_id, guest_id)
+
     redirect "/guest/#{guest_id}"
   end
 
