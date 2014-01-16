@@ -11,7 +11,7 @@ require 'guest'
 require 'guests'
 require 'orders'
 require 'order'
-require 'mock_datastore'
+
 
 set :database, 'sqlite3:///drinks.db'
 
@@ -115,25 +115,15 @@ class DrinkApp < Sinatra::Application
     erb 'guests/delete'.to_sym
   end
 
-  put '/orders/:guest_id/:drink_id' do
-    guest_id = params[:guest_id]
-    drink_id = params[:drink_id]
-
-    @order = Order.new(params)
-    @order.quantity += 1
-
-    Repository.for(:order).save(@order) 
+  put '/orders/:guest_id/:drink_id' do 
+    Repository.for(:order).save(Order.new(params))
 
     redirect "/guest/#{guest_id}"
   end
 
   delete '/orders/:guest_id/:drink_id' do
-    guest_id = params[:guest_id]
-    drink_id = params[:drink_id]
+    Repository.for(:guest).delete_by_id(order.id)
 
-    @order = Repository.for(:order).find_order(drink_id, guest_id)
-
-    check_and_decrease_quantity
 
     redirect "/guest/#{guest_id}"
   end

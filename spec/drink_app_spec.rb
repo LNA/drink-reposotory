@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'mock_datastore'
 
 describe DrinkApp do
   before :each do
@@ -167,27 +168,42 @@ describe DrinkApp do
     end
 
     context 'orders' do 
+      before :each do
+        Repository.for(:order).records = {}
+        Repository.for(:order).id = 1
+      end
+
       it 'creates an order' do
         Repository.for(:order).records = {}
         put "orders/#{@guest.id}/#{@drink.id}"
-        Repository.for(:order).find_order(@drink.id, @guest.id).quantity.should == 1
+        order = Repository.for(:order).records[1]
+        order.drink_id.should == @drink.id
+        order.guest_id.should == @guest.id
       end
 
       it 'updates the quantity as 1 the first time a drink is ordered' do
         put "orders/#{@guest.id}/#{@drink.id}"
-        Repository.for(:order).find_order(@drink.id, @guest.id).quantity.should == 1
+        order = Repository.for(:order).records[1]
+        order.quantity.should == 1
       end
 
       it 'updates the quantity by 1 the second time a drink is ordered' do
         put "orders/#{@guest.id}/#{@drink.id}"
         put "orders/#{@guest.id}/#{@drink.id}"
-  
-        Repository.for(:order).find_order(@drink.id, @guest.id).quantity.should == 2
+        
+        order = Repository.for(:order).records[1]
+
+        order.quantity.should == 2
       end
 
       it 'deletes a guests drink if quantity was 1' do
+        params = {:drink_id => @drink.id, :guest_id => @guest.id}
+        order = Order.new(params)
+        Repository.for(:order).save(order)
+
         delete "/orders/#{@guest.id}/#{@drink.id}"
-        Repository.for(:order).find_order(@drink.id, @guest.id) == nil
+
+        Repository.for(:order).records[1].should == nil
       end
     end
   end

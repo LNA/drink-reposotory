@@ -16,38 +16,22 @@ describe 'initializing the orders datastore' do
   end
 end
 
-describe 'the orders datastore methods' do  
+describe 'the orders datastore methods' do
+  let(:drink1_id) { 1 }
+  let(:drink2_id) { 2 }
+  let(:drink3_id) { 3 }
+
+  let(:guest1_id) { 1 }
+  let(:guest2_id) { 2 }
+  let(:guest3_id) { 3 }
+
   before :each do
-    @drink_1 = Drink.new
-    @drink_2 = Drink.new
-    @drink_datastore = Drinks.new
-    @drink_datastore.save(@drink_1)
-    @drink_datastore.save(@drink_2)
-    
-    @guest_1 = Guest.new
-    @guest_2 = Guest.new
-    @guest_datastore = Guests.new
-    @guest_datastore.save(@guest_1)
-    @guest_datastore.save(@guest_2)
-
-
-
-    order_1_params = {:drink_id => @drink_1.id,
-                      :guest_id => @guest_1.id,
-                      :quantity => 0}
-
-    order_2_params = {:drink_id => @drink_2.id,
-                      :guest_id => @guest_2.id,
-                      :quantity => 0}
-
-    order_3_params = {:drink_id => @drink_1.id,
-                      :guest_id => @guest_2.id,
-                      :quantity => 0}
-
-
-    @order_1 = Order.new(order_1_params)
-    @order_2 = Order.new(order_2_params)
-    @order_3 = Order.new(order_3_params)
+    @order_1 = Order.new({:drink_id => drink1_id,
+                          :guest_id => guest1_id})
+    @order_2 = Order.new({:drink_id => drink2_id,
+                          :guest_id => guest2_id})
+    @order_3 = Order.new({:drink_id => drink1_id,
+                          :guest_id => guest2_id})
 
     @order_datastore = Orders.new
     @order_datastore.save(@order_1)
@@ -72,6 +56,25 @@ describe 'the orders datastore methods' do
     it 'can save more than one order' do
       @order_datastore.records[1].should == @order_1
       @order_datastore.records[2].should == @order_2
+    end
+
+    it 'saves an order with a new drink_id' do
+      @order_datastore.records[1].drink_id.should == 1
+    end
+
+    it 'saves an order with a new guest_id' do
+      @order_datastore.records[1].guest_id.should == 1
+    end
+
+    context 'quantity' do
+      it 'updates the quantity to one the first time a drink is ordered' do
+        @order_datastore.records[1].quantity.should == 1
+      end
+
+      it 'increases the quantity when saving an existing drink' do
+        @order_datastore.save(@order_1)
+        @order_1.quantity.should == 2
+      end
     end
   end
 
@@ -104,20 +107,6 @@ describe 'the orders datastore methods' do
       @order_datastore.find_order(1, 1).should == @order_1
       @order_datastore.find_order(2, 2).should == @order_2
       @order_datastore.find_order(1, 2).should == @order_3
-    end
-  end
-
-  context 'saving an order' do
-    it 'saves an order with a new drink_id' do
-      @order_datastore.records[1].drink_id.should == 1
-    end
-
-    it 'saves an order with a new guest_id' do
-      @order_datastore.records[1].guest_id.should == 1
-    end
-
-    it 'saves an order with a quantity of 1' do
-      @order_datastore.records[1].quantity.should == 1
     end
   end
 

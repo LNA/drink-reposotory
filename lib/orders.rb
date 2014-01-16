@@ -7,9 +7,21 @@ class Orders
   end
 
   def save(order)
-    @records[@id] = order 
-    order.id = @id
-    @id += 1
+    new_order = find_or_created(order)
+    new_order.quantity += 1
+  end
+
+  def find_or_created(order)
+    existing_order = find_order(order.drink_id, order.guest_id)
+
+    unless existing_order
+      @records[@id] = order
+      order.id = @id
+      @id += 1
+      existing_order = order
+    end
+
+    existing_order
   end
 
   def all
@@ -45,10 +57,8 @@ class Orders
   end
 
   def delete_order(drink_id, guest_id)
-    @order = find_order(drink_id, guest_id)
-    @id = @order.id
-    check_and_delete_by_id
-    @order
+    existing_order = find_order(order.drink_id, order.guest_id)
+    delete_by_id(order.id)
   end
 
   def check_and_delete_by_id
