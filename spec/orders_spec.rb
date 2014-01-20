@@ -35,7 +35,7 @@ describe 'Orders' do
 
     it 'updates the quantity to one the first time a drink is ordered' do
       datastore.save_new(drink_id, guest_id)
-
+    
       datastore.records[1].quantity.should == 1
     end
 
