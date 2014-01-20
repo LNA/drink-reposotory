@@ -22,5 +22,5 @@ class Drinks
 
   def delete_by_id(id)
     @records.delete(id)
-   end
+  end
 end

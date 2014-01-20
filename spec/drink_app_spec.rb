@@ -2,6 +2,7 @@ require 'spec_helper'
 require 'mock_datastore'
 
 describe DrinkApp do
+  
   before :each do
     @drink = Drink.new
     Repository.for(:drink).save(@drink)
@@ -14,14 +15,14 @@ describe DrinkApp do
     @app ||= DrinkApp
   end
 
-  describe 'the home page' do
+  context 'the home page' do
     it 'loads home page' do
       get "/" 
       last_response.should be_ok
     end
   end
 
-  describe 'Drinks pages' do
+  context 'drinks' do
     it 'displays the form for creating new drinks' do
       get '/drinks/new'
       last_response.should be_ok
@@ -45,7 +46,7 @@ describe DrinkApp do
     end
   end
 
-  describe 'Pages for a single drink' do
+  context 'drink' do
     it 'returns the drink id' do
       Repository.for(:drink).save(@drink)
       get '/drink/1'
@@ -89,7 +90,7 @@ describe DrinkApp do
     end
   end
 
-  describe 'Guests pages' do 
+  context 'guests' do 
 
     before :each do
       @params = {:first_name => 'Jay',
@@ -125,7 +126,7 @@ describe DrinkApp do
     end
   end
 
-  describe 'Pages for a single guest' do 
+  context 'guest' do 
     it 'returns the guest id' do
       Repository.should_receive(:for).and_return(:id)
       post '/guests'
@@ -199,10 +200,10 @@ describe DrinkApp do
       it 'deletes a guests drink if quantity was 1' do
         params = {:drink_id => @drink.id, :guest_id => @guest.id}
         order = Order.new(params)
-        Repository.for(:order).save(order)
+        Repository.for(:order).save_new(order.drink_id, order.guest_id)
 
         delete "/orders/#{@guest.id}/#{@drink.id}"
-
+  
         Repository.for(:order).records[1].should == nil
       end
     end
