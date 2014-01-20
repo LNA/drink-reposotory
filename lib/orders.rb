@@ -39,6 +39,17 @@ class Orders
     guest_orders.map { |order| Repository.for(:drink).find_by_id(order.drink_id) }
   end
 
+  def find_quantity_for_guest_id(guest_id)
+    # q = []
+    guest_orders = Repository.for(:order).all.select { |order| order.guest_id == guest_id }
+    guest_orders.map { |order| Repository.for(:drink).quantity }
+
+    # guest_orders.each do |order|
+      # q << order.quantity
+    # end
+    # q
+  end
+
   private
   def reduce_quantity
     if @existing_order.quantity == 1

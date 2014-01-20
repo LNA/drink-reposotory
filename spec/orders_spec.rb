@@ -92,8 +92,20 @@ describe 'Orders' do
       drink = Drink.new
       Repository.for(:drink).save(drink)
       Repository.for(:order).save_new(drink.id, guest.id)
-    
+     
       Repository.for(:order).find_drinks_for_guest_id(guest.id).should == [drink]
+    end
+  end
+
+  context '#find_quantity_for_guest_id' do 
+    it 'finds the quantity for a guests drinks' do
+      guest = Guest.new
+      Repository.for(:guest).save(guest)
+      drink = Drink.new
+      Repository.for(:drink).save(drink)
+      Repository.for(:order).save_new(drink.id, guest.id)
+      
+      Repository.for(:order).find_quantity_for_guest_id(guest.id).should == [1]
     end
   end
 end
