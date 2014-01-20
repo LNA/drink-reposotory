@@ -84,4 +84,16 @@ describe 'Orders' do
       datastore.records[1].quantity.should == 1
     end
   end
+
+  context '#find_drinks_for_guest_id' do 
+    it 'finds a guests drinks' do
+      guest = Guest.new
+      Repository.for(:guest).save(guest)
+      drink = Drink.new
+      Repository.for(:drink).save(drink)
+      Repository.for(:order).save_new(drink.id, guest.id)
+    
+      Repository.for(:order).find_drinks_for_guest_id(guest.id).should == [drink]
+    end
+  end
 end

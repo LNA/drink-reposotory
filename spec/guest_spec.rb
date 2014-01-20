@@ -28,13 +28,12 @@ describe 'Guest' do
   context '#drinks' do
     it 'returns the drinks for a guest' do
       guest = Guest.new
-      guest_datastore = Guests.new.save(guest)
+      Repository.for(:guest).save(guest)
 
       drink = Drink.new
-      drink_datastore = Drinks.new.save(drink)
+      Repository.for(:drink).save(drink)
 
-      order_datastore = Orders.new
-      order_datastore.save_new(drink.id, guest.id)
+      Repository.for(:order).save_new(drink.id, guest.id)
       
       guest.drinks.should == [drink]
     end

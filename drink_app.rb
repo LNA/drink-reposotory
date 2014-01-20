@@ -101,15 +101,7 @@ class DrinkApp < Sinatra::Application
 
     @drinks = drink_datastore_instance.all
 
-    @orders = []
-
-    Repository.for(:order).records.values.each do |value|
-      if value.guest_id == @guest.id
-        @orders << order
-      end
-      @orders
-    end
-
+   
     erb '/guests/show'.to_sym
   end
 

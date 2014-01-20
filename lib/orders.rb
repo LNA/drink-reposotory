@@ -30,12 +30,16 @@ class Orders
     reduce_quantity
   end
 
-  private
-
   def all
     @records.values
   end
 
+  def find_drinks_for_guest_id(guest_id)
+    guest_orders = Repository.for(:order).all.select { |order| order.guest_id == guest_id }
+    guest_orders.map { |order| Repository.for(:drink).find_by_id(order.drink_id) }
+  end
+
+  private
   def reduce_quantity
     if @existing_order.quantity == 1
       @records.delete(existing_order.id)

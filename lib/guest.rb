@@ -1,6 +1,6 @@
 class Guest
   attr_accessor :drinks, :first_name, :guests, :id, 
-                :last_name, :orders, :repository
+                :last_name, :orders
 
   def initialize(params = {})
     @first_name = params[:first_name]
@@ -13,14 +13,7 @@ class Guest
   end
 
   def drinks
-
-    @drinks = []
-    
-    repository.records.values.first.each do |value|
-      if value.guest_id == guest_id
-        @drinks << value
-      end
-    end
-    @drinks
+    guest_orders = Repository.for(:order).all.select { |order| order.guest_id == @id }
+    guest_orders.map { |order| Repository.for(:drink).find_by_id(order.drink_id) }
   end
 end
