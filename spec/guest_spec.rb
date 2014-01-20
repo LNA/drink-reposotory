@@ -2,23 +2,41 @@ require 'spec_helper'
 require 'mock_datastore'
 
 describe 'Guest' do
-  let (:datastore) {Guests.new}
   let (:params) { {:first_name => 'Jane',
                    :last_name => 'Doe'} }
 
-  it 'creates a new guest with params' do 
-    guest_1 = Guest.new(params)
+  context '#initialize' do
+    it 'creates a new guest with params' do 
+      guest = Guest.new(params)
 
-    guest_1.first_name.should == 'Jane'
-    guest_1.last_name.should == 'Doe'
+      guest.first_name.should == 'Jane'
+      guest.last_name.should == 'Doe'
+    end
   end
 
-  it 'updates the guest params' do
-    guest_1 = Guest.new(params)
-    guest_1.update(:first_name => 'Jon',
-                  :last_name => 'Dow')
+  context 'update' do 
+    it 'updates the guest params' do
+      guest = Guest.new(params)
+      guest.update(:first_name => 'Jon',
+                    :last_name => 'Dow')
 
-    guest_1.first_name.should == 'Jon'
-    guest_1.last_name.should == 'Dow'
+      guest.first_name.should == 'Jon'
+      guest.last_name.should == 'Dow'
+    end
+  end
+
+  context 'drinks' do
+    it 'returns the drinks for a guest' do
+      guest = Guest.new
+      guest_datastore = Guests.new.save(guest)
+
+      drink = Drink.new
+      drink_datastore = Drinks.new.save(drink)
+
+      order_datastore = Orders.new
+      order_datastore.save_new(drink.id, guest.id)
+      
+      guest.drinks.should == [drink]
+    end
   end
 end
