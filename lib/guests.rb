@@ -10,6 +10,7 @@ class Guests
     @records[@id] = guest
     guest.id = @id
     @id += 1
+    guest
   end
 
   def all

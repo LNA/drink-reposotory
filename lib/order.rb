@@ -12,4 +12,8 @@ class Order
     @drink_id = params[:drink_id] unless params [:drink_id].nil?  
     @quantity = params[:quantity] unless params [:quantity].nil?  
   end
+
+  def drink
+    Repository.for(:drink).all.select { |drink| drink.id == self.id}.first
+  end
 end

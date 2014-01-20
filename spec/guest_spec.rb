@@ -24,4 +24,11 @@ describe 'Guest' do
       guest.last_name.should == 'Dow'
     end
   end
+
+  # context '#orders' do
+  #   it 'returns all orders for a guest' do
+
+  #     guest.orders.should == #whatever orders you add in test setup
+  #   end
+  # end
 end

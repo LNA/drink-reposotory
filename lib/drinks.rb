@@ -10,6 +10,7 @@ class Drinks
     @records[@id] = drink
     drink.id = @id
     @id += 1
+    drink
   end
 
   def all
