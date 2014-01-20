@@ -106,8 +106,13 @@ class DrinkApp < Sinatra::Application
   end
 
   put '/guest/:id' do
+    drink_id = params[:drink_id].to_i
+    guest_id = params[:guest_id].to_i
+
     find_guest_by_id
     @guest.update(params)
+
+    @drink = find_drinks_for_guest_id(guest_id)
 
     redirect "/guest/#{@guest.id}"
   end
@@ -167,5 +172,10 @@ class DrinkApp < Sinatra::Application
     else
       Repository.for(:order).increase_quantity_by_one(drink_id, guest_id)
     end
+  end
+
+  def find_drinks_for_guest_id(guest_id)
+    guest_orders = Repository.for(:order).all.select { |order| order.guest_id == guest_id }
+    guest_orders.map { |order| Repository.for(:drink).find_by_id(order.drink_id) }
   end
 end

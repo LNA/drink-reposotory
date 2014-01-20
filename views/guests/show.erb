@@ -22,19 +22,18 @@
 </p> 
 <p>ORDERS
   <ul>
-    <% @orders.each do |order| %>
+    <% @drinks.each do |drink| %>
     <li>
-      <%= order.drink_id %>
-      <form action="/orders/<%= @guest.id %>/<%= order.drink.id %>" method="post">
+      <%= drink.name %> 
+      <form action="/orders/<%= @guest.id %>/<%= drink.id %>" method="post">
         <input type="hidden" name="_method" value="put">
-        <input type="hidden" name="order.drink.id" value= <%= order.quantity%>>  
-        <input type="submit" value="Reorder">  
-        </form>
+        <input type="hidden" name="drink" value= <%= drink %>>  
+        <input type="submit" value="Order">  
+       </form>  
     </li>
   <% end %>
  </ul>
 </p>
-
 
 <p>
   <a href="/guests/new">Add A New Guest</a>

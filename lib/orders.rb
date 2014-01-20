@@ -47,5 +47,4 @@ class Orders
       @existing_order.quantity -= 1
     end
   end
-
 end

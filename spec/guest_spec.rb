@@ -24,18 +24,4 @@ describe 'Guest' do
       guest.last_name.should == 'Dow'
     end
   end
-
-  context '#drinks' do
-    it 'returns the drinks for a guest' do
-      guest = Guest.new
-      Repository.for(:guest).save(guest)
-
-      drink = Drink.new
-      Repository.for(:drink).save(drink)
-
-      Repository.for(:order).save_new(drink.id, guest.id)
-      
-      guest.drinks.should == [drink]
-    end
-  end
 end
