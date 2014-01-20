@@ -14,7 +14,7 @@ describe 'Guest' do
     end
   end
 
-  context 'update' do 
+  context '#update' do 
     it 'updates the guest params' do
       guest = Guest.new(params)
       guest.update(:first_name => 'Jon',
@@ -25,7 +25,7 @@ describe 'Guest' do
     end
   end
 
-  context 'drinks' do
+  context '#drinks' do
     it 'returns the drinks for a guest' do
       guest = Guest.new
       guest_datastore = Guests.new.save(guest)
