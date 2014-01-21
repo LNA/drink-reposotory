@@ -99,7 +99,9 @@ class DrinkApp < Sinatra::Application
     find_guest_by_id
     drink_datastore_instance = Repository.for(:drink) 
     @drinks = drink_datastore_instance.all
-   
+    require 'pry'
+    binding.pry
+
     erb '/guests/show'.to_sym
   end
 

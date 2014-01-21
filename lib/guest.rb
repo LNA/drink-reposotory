@@ -13,6 +13,19 @@ class Guest
   end
 
   def orders
-    Repository.for(:order).all.select { |order| order.guest_id == self.id}.first
+    @orders = Repository.for(:order).all.select { |order| order.guest_id == self.id}.first
+
+    return_orders_or_nil_if_none_exist
+  end
+  
+  private
+
+  def return_orders_or_nil_if_none_exist
+    if @orders == nil
+      @orders = []
+    else
+      @orders
+    end
+    @orders
   end
 end
