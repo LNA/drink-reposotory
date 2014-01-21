@@ -22,9 +22,11 @@
 </p> 
 <p>ORDERS
   <ul>
-    <% @drinks.each do |drink| %>
+    <% @guest.orders.each do |order| %>
     <li>
-      <%= drink.name %> 
+      <%= order.drink.name %>
+      <%= order.quantity %>
+    </li>
       <form action="/orders/<%= @guest.id %>/<%= drink.id %>" method="post">
         <input type="hidden" name="_method" value="put">
         <input type="hidden" name="drink" value= <%= drink %>>  

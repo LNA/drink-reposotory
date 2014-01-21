@@ -25,10 +25,15 @@ describe 'Guest' do
     end
   end
 
-  # context '#orders' do
-  #   it 'returns all orders for a guest' do
-
-  #     guest.orders.should == #whatever orders you add in test setup
-  #   end
-  # end
+  context '#orders' do
+    it 'returns all orders for a guest' do
+      clear_records
+      drink = new_test_drink
+      guest = new_test_guest
+      Repository.for(:order).save_new(drink.id, guest.id)
+      order = Repository.for(:order).find_order(drink.id, guest.id)
+     
+      guest.orders.should == order
+    end
+  end
 end
