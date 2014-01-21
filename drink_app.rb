@@ -99,7 +99,6 @@ class DrinkApp < Sinatra::Application
     find_guest_by_id
     drink_datastore_instance = Repository.for(:drink) 
     @drinks = drink_datastore_instance.all
-    @orders = Repository.for(:order).all 
    
     erb '/guests/show'.to_sym
   end
@@ -110,8 +109,7 @@ class DrinkApp < Sinatra::Application
 
     find_guest_by_id
     @guest.update(params)
-
-
+    
     redirect "/guest/#{@guest.id}"
   end
 
