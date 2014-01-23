@@ -174,7 +174,12 @@ class DrinkApp < Sinatra::Application
 
   def delete_order(drink_id, guest_id)
     @existing_order = find_order(drink_id, guest_id)
-    reduce_quantity
+    if @existing_order.quantity == 1
+      @records.delete(existing_order.id)
+    else
+      @existing_order.quantity -= 1
+    end
+    @existing_order
   end
 
    def reduce_quantity

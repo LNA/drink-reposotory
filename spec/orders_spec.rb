@@ -4,7 +4,7 @@ describe 'Orders' do
     let (:guest_id)  { 1 }
     let (:datastore) {Orders.new}  
 
-  context 'initialize' do
+  context '#initialize' do
 
     it 'should intitialize with empty records' do
         datastore.records.should == {}
@@ -15,7 +15,7 @@ describe 'Orders' do
     end
   end
 
-  context 'save_new' do
+  context '#save_new' do
 
     it "saves a new object in records by id" do 
       datastore.save_new(drink_id, guest_id)
@@ -31,7 +31,7 @@ describe 'Orders' do
     end
   end
 
-  context 'quantity' do
+  context '#quantity' do
 
     it 'updates the quantity to one the first time a drink is ordered' do
       datastore.save_new(drink_id, guest_id)
@@ -57,7 +57,7 @@ describe 'Orders' do
     end
   end
 
-  context 'updating an existing order' do
+  context '#updating an existing order' do
     it 'increments quantity by 1 when reordered' do
       datastore.save_new(drink_id, guest_id)
 
@@ -67,7 +67,7 @@ describe 'Orders' do
     end
   end
 
-  context 'void an existing order' do
+  context '#delete_order' do
 
     it 'deletes the order record if quantity is 1' do
       datastore.save_new(drink_id, guest_id)

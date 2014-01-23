@@ -20,12 +20,12 @@
   <% end %>
  </ul>
 </p> 
+
 <p>ORDERS
   <ul>
     <% @guest.orders.each do |order| %>
     <li>
-      <%= order.drink.name %> 
-      <%= order.quantity %>
+      <%= order.drink.name %> <%= order.quantity %>
       <form action="/orders/<%= @guest.id %>/<%= order.drink.id %>" method="post">
         <input type="hidden" name="_method" value="put">
         <input type="hidden" name="order.drink.id" value= <%= order.quantity%>>  
@@ -39,8 +39,7 @@
       </form> 
     </li>
   <% end %>
- </ul>
-  
+ </ul>  
 </p>
 
 <p>
