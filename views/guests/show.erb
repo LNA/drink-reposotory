@@ -11,11 +11,11 @@
     <li>
       <%= drink.name %> - <%= drink.booze %> - 
       <%= drink.mixer %> - <%= drink.glass %>
-     <form action="/guest/<%= @guest.id %>" method="post">
-      <input type="hidden" name="_method" value="put">
-	    <input type="hidden" name="drink_id" value= <%= drink.id%>>  
-	    <input type="submit" value="Yes, Add this drink!">  
-    </form>  
+     <form method="post" action="/orders/<%= @guest.id %>/<%= drink.id %>">
+        <input type="hidden" name="_method" value="put">
+        <input type="hidden" name="drink_id" value= <%= drink.id%>>  
+        <input type="submit" value="Order">  
+      </form> 
     </li>
   <% end %>
  </ul>
@@ -30,7 +30,13 @@
         <input type="hidden" name="_method" value="put">
         <input type="hidden" name="order.drink.id" value= <%= order.quantity%>>  
         <input type="submit" value="Reorder">  
-        </form> 
+      </form>
+
+      <form action="/orders/<%= @guest.id %>/<%= order.drink.id %>" method="post">
+        <input type="hidden" name="_method" value="delete">
+        <input type="hidden" name="order.drink.id" value= <%= order.quantity%>>  
+        <input type="submit" value="Void">  
+      </form> 
     </li>
   <% end %>
  </ul>

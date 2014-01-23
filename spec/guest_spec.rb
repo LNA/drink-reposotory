@@ -32,6 +32,8 @@ describe 'Guest' do
       guest = new_test_guest
       Repository.for(:order).save_new(drink.id, guest.id)
       order = Repository.for(:order).find_order(drink.id, guest.id)
+      require 'pry'
+      binding.pry
 
       guest.orders.should == order
     end

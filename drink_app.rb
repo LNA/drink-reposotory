@@ -99,10 +99,9 @@ class DrinkApp < Sinatra::Application
     find_guest_by_id
     drink_datastore_instance = Repository.for(:drink) 
     @drinks = drink_datastore_instance.all
-    require 'pry'
-    binding.pry
 
     erb '/guests/show'.to_sym
+
   end
 
   put '/guest/:id' do
@@ -111,6 +110,7 @@ class DrinkApp < Sinatra::Application
 
     find_guest_by_id
     @guest.update(params)
+
     
     redirect "/guest/#{@guest.id}"
   end
@@ -134,7 +134,7 @@ class DrinkApp < Sinatra::Application
     erb 'guests/delete'.to_sym
   end
 
-  put '/orders/:guest_id/:drink_id' do 
+  put '/orders/:guest_id/:drink_id' do    
     drink_id = params[:drink_id].to_i
     guest_id = params[:guest_id].to_i
 
@@ -169,6 +169,19 @@ class DrinkApp < Sinatra::Application
       Repository.for(:order).save_new(drink_id, guest_id)
     else
       Repository.for(:order).increase_quantity_by_one(drink_id, guest_id)
+    end
+  end
+
+  def delete_order(drink_id, guest_id)
+    @existing_order = find_order(drink_id, guest_id)
+    reduce_quantity
+  end
+
+   def reduce_quantity
+    if @existing_order.quantity == 1
+      @records.delete(existing_order.id)
+    else
+      @existing_order.quantity -= 1
     end
   end
 end
