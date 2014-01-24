@@ -1,46 +1,105 @@
-<p>  
-  <%= @guest.first_name%>  
-</p> 
-<p>  
-  <%= @guest.last_name %>  
-</p>
-<p>
-  Add A Drink To The Guest
-  <ul>
-  <% @drinks.each do |drink| %>
-    <li>
-      <%= drink.name %> - <%= drink.booze %> - 
-      <%= drink.mixer %> - <%= drink.glass %>
-     <form method="post" action="/orders/<%= @guest.id %>/<%= drink.id %>">
-        <input type="hidden" name="_method" value="put">
-        <input type="hidden" name="drink_id" value= <%= drink.id%>>  
-        <input type="submit" value="Order">  
-      </form> 
-    </li>
-  <% end %>
- </ul>
-</p> 
+<style>
+.guest {
+  font-size: 50 ;
+  font-weight: bold;
+  padding-left: 70px;
+}
 
-<p>ORDERS
-  <ul>
+.box {
+  width:150px;
+  height:50px;
+  border:1px solid black;
+  font-size: 20 ;
+  font-weight:bold;
+  text-align:center;
+
+
+}
+
+td, th {
+  word-spacing: 10 em;
+  text-align: left;
+}
+
+
+</style>
+<div class="guest">
+  <p>  
+    <%= @guest.first_name%>  <%= @guest.last_name %>  
+  </p>
+</div>
+
+
+<div class="box">
+  <p>
+    Orders
+  </p>
+</div>
+
+<table>
+    <thead>
+      <tr>
+        <th width="30%">Drink Name</th>
+        <th width="37%">QTY</th>
+        <th width="15%">     +     </th>
+        <th width="15%">     /    </th>
+        <th width="15%">     -    </th>
+
+
+      </tr>
+    </thead>
+<table>
+
+  <table>
+
+    <tbody>
+  <tr>
+    <hr></hr>
     <% @guest.orders.each do |order| %>
-    <li>
-      <%= order.drink.name %> <%= order.quantity %>
-      <form action="/orders/<%= @guest.id %>/<%= order.drink.id %>" method="post">
+
+      <td width="9%"><%= order.drink.name %></td>
+      
+      <td width="6%"><%= order.quantity %></td>
+
+      <td width="4%">
+        <form action="/orders/<%= @guest.id %>/<%= order.drink.id %>" method="post">
         <input type="hidden" name="_method" value="put">
         <input type="hidden" name="order.drink.id" value= <%= order.quantity%>>  
         <input type="submit" value="Reorder">  
-      </form>
+        </form>
+      </td>  
 
-      <form action="/orders/<%= @guest.id %>/<%= order.drink.id %>" method="post">
+
+      <td width="25%">
+        <form action="/orders/<%= @guest.id %>/<%= order.drink.id %>" method="post">
         <input type="hidden" name="_method" value="delete">
         <input type="hidden" name="order.drink.id" value= <%= order.quantity%>>  
         <input type="submit" value="Void">  
-      </form> 
-    </li>
+        </form>
+      </td>  
+      <td width="50%">
+  </tr>
+
+    <% end %>
+  </tbody>
+  </table>
+
+<div class="box">
+  <p>
+    Drinks
+  </p>
+</div>
+  <dl>
+    <% @drinks.each do |drink| %>
+        <%= drink.name %>
+        <dd><form action="/orders/<%= @guest.id %>/<%= drink.id %>" method="post">
+        <input type="hidden" name="_method" value="put">
+              <input type="hidden" name="drink_id" value= <%= drink.id%>>  
+              <input type="submit" value="Order">  
+       </form> </dd>
+     </dt>
   <% end %>
- </ul>  
-</p>
+</dl>
 
 <p>
   <a href="/guests/new">Add A New Guest</a>
@@ -52,6 +111,8 @@
 <p>
   <a href="/guest/<%= @guest.id %>/edit">Edit This Guest</a>
 </p>
-<p>
-  <a href="/guest/<%= @guest.id %>/delete">Delete This Guest</a>
-</p>
+
+<form action="/guest/<%= @guest.id %>" method="post">  
+<input type="hidden" name="_method" value="delete">  
+<input type="submit" value="Delete This Guest!">  
+</form>

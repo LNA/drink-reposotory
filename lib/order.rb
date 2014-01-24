@@ -14,6 +14,6 @@ class Order
   end
 
   def drink
-    Repository.for(:drink).all.select { |drink| drink.id == self.id}.first
+    Repository.for(:drink).find_by_id(@drink_id)
   end
 end

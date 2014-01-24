@@ -35,10 +35,9 @@ class Orders
     @records.values
   end
 
-  private
   def reduce_quantity
-    if @existing_order.quantity == 1
-      @records.delete(existing_order.id)
+    if @existing_order.quantity == 1 
+      @records.delete(existing_order.id) 
     else
       @existing_order.quantity -= 1
     end

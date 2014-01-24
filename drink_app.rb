@@ -139,7 +139,7 @@ class DrinkApp < Sinatra::Application
     guest_id = params[:guest_id].to_i
 
     find_or_create_order(drink_id, guest_id)
-
+   
     redirect "/guest/#{guest_id}"
   end
 
@@ -169,24 +169,6 @@ class DrinkApp < Sinatra::Application
       Repository.for(:order).save_new(drink_id, guest_id)
     else
       Repository.for(:order).increase_quantity_by_one(drink_id, guest_id)
-    end
-  end
-
-  def delete_order(drink_id, guest_id)
-    @existing_order = find_order(drink_id, guest_id)
-    if @existing_order.quantity == 1
-      @records.delete(existing_order.id)
-    else
-      @existing_order.quantity -= 1
-    end
-    @existing_order
-  end
-
-   def reduce_quantity
-    if @existing_order.quantity == 1
-      @records.delete(existing_order.id)
-    else
-      @existing_order.quantity -= 1
     end
   end
 end
