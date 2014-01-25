@@ -1,17 +1,16 @@
 require 'spec_helper'
 
-describe 'initializing the guests datastore' do 
-  before :each do
-    @datastore = Guests.new
-  end
+
+describe 'Guests' do 
+  let (:datastore) {Guests.new}
 
   context '#initialize' do
     it 'should initialize the guests datastore' do
-      @datastore.records.should == {}
+      datastore.records.should == {}
     end
 
     it 'should initialize with an id' do
-      @datastore.id.should == 1
+      datastore.id.should == 1
     end
   end
 end
