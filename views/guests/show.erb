@@ -50,9 +50,8 @@ td, th {
     </thead>
 <table>
 
-  <table>
-
-    <tbody>
+<table>
+  <tbody>
   <tr>
     <hr></hr>
     <% @guest.orders.each do |order| %>
@@ -69,7 +68,6 @@ td, th {
         </form>
       </td>  
 
-
       <td width="25%">
         <form action="/orders/<%= @guest.id %>/<%= order.drink.id %>" method="post">
         <input type="hidden" name="_method" value="delete">
@@ -79,10 +77,9 @@ td, th {
       </td>  
       <td width="50%">
   </tr>
-
-    <% end %>
+  <% end %>
   </tbody>
-  </table>
+</table>
 
 <div class="box">
   <p>
