@@ -23,7 +23,6 @@ describe Order do
     end
   end
 
-
   context '#update' do 
     it 'updates the guest parameter' do 
       order.update(:guest_id => guest_2_id)
